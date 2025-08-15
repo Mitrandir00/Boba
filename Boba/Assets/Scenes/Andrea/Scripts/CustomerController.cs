@@ -4,51 +4,59 @@ using UnityEngine.Events;
 public class CustomerController : MonoBehaviour
 {
     [Header("Waypoints")]
-    public Transform waitPoint;      // punto centrale dove il cliente attende
-    public Transform exitPoint;      // uscita a sinistra
+    [SerializeField] public Transform waitPoint;   // dove attende
+    [SerializeField] public Transform exitPoint;   // uscita
 
     [Header("Movimento")]
-    public float moveSpeed = 2.5f;
+    [SerializeField] public float moveSpeed = 2.5f;
 
     [Header("Attesa")]
-    public float maxWaitSeconds = 10f;    // tempo massimo di attesa
-    public UnityEvent OnReadyToOrder;     // invocato quando raggiunge il waitPoint
-    public UnityEvent OnWaitTimedOut;     // invocato se scade l'attesa
+    [SerializeField] private float maxWaitSeconds = 10f;
 
-    [Header("UI")]
-    [SerializeField] private CustomerOrderUI orderUI;  // per nascondere/mostrare il balloon
+    [Header("Eventi di stato")]
+    public UnityEvent OnReadyToOrder;   // collega -> CustomerOrder.PickAndShowOrder()
+    public UnityEvent OnWaitTimedOut;
+
+    [Header("Ordine & UI")]
+    [SerializeField] private CustomerOrder order;      // stesso CustomerOrder del cliente
+    [SerializeField] private CustomerOrderUI orderUI;  // balloon dello stesso cliente
+
+    [Header("Reazioni alla consegna (opzionali)")]
+    public UnityEvent OnOrderCorrect;   // hook per SFX/VFX/punteggio++
+    public UnityEvent OnOrderWrong;     // hook per SFX/VFX/punteggio--
 
     private enum State { Entering, Waiting, Exiting }
     private State state;
     private Vector3 target;
     private float waitTimer;
 
+    void Awake()
+    {
+        if (!order)   order   = GetComponentInChildren<CustomerOrder>(true);
+        if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
+    }
+
     void Start()
     {
         state = State.Entering;
-        target = waitPoint.position;
+        target = waitPoint ? waitPoint.position : transform.position;
 
-        // Per sicurezza: balloon nascosto fin dall’inizio.
         if (orderUI) orderUI.Hide();
     }
 
     void Update()
     {
-        // Movimento (entrata/uscita)
         if (state == State.Entering || state == State.Exiting)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position, target, moveSpeed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, target) < 0.01f)
             {
                 if (state == State.Entering)
                 {
-                    // Arrivato al centro: passa in attesa e notifica che è pronto a ordinare
                     state = State.Waiting;
                     waitTimer = 0f;
-                    OnReadyToOrder?.Invoke(); // CustomerOrder.PickAndShowOrder → fa apparire il balloon
+                    OnReadyToOrder?.Invoke(); // -> CustomerOrder.PickAndShowOrder()
                 }
                 else if (state == State.Exiting)
                 {
@@ -57,41 +65,63 @@ public class CustomerController : MonoBehaviour
             }
         }
 
-        // Gestione fase di attesa al centro
         if (state == State.Waiting)
         {
             waitTimer += Time.deltaTime;
 
-            // Timeout: va via e nascondiamo il balloon
+            // ⏱️ timeout naturale
             if (waitTimer >= maxWaitSeconds)
             {
                 OnWaitTimedOut?.Invoke();
+                if (orderUI) orderUI.Stufo();
                 BeginExit();
+                return;
             }
 
-            // (Opzionale: test manuale) premi SPAZIO per servirlo e farlo uscire
-            if (Input.GetKeyDown(KeyCode.Space))
+            // 🔧 MODALITÀ TEST: 1 = corretto, 2 = sbagliato
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                ServeAndExit();
+                if (orderUI) orderUI.ShowYesNo(true);
+                OnOrderCorrect?.Invoke();
+                BeginExit();
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (orderUI) orderUI.ShowYesNo(false);
+                OnOrderWrong?.Invoke();
+                BeginExit();
+                return;
             }
         }
     }
 
     /// <summary>
-    /// Chiamare quando il cliente viene servito prima del timeout.
+    /// Consegna vera (quando avrai il drink costruito dal player).
     /// </summary>
+    public void ReceiveDrink(BobaRecipe delivered)
+    {
+        if (state != State.Waiting || order == null) return;
+
+        bool correct = order.Matches(delivered);
+
+        if (orderUI) orderUI.ShowYesNo(correct);
+        if (correct) OnOrderCorrect?.Invoke();
+        else         OnOrderWrong?.Invoke();
+
+        BeginExit();
+    }
+
     public void ServeAndExit()
     {
         if (state != State.Waiting) return;
-    
         BeginExit();
     }
 
     private void BeginExit()
     {
-        // Nascondi balloon quando inizia a uscire
-        if (orderUI) orderUI.Hide();
+        // lasciamo visibile "SI/NO" durante l'uscita
         state = State.Exiting;
-        target = exitPoint.position;
+        target = exitPoint ? exitPoint.position : transform.position;
     }
 }
