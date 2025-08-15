@@ -151,6 +151,9 @@ MonoBehaviour:
   customerPrefabs:
   - {fileID: 5885106867128739669, guid: 73342d97736691f4da1952cb9e198c80, type: 3}
   - {fileID: 5885106867128739669, guid: 84dab026ab5ddce429e986bd1d00841c, type: 3}
+  - {fileID: 5885106867128739669, guid: bee2a25cec6eed542bf2b81bcd06dce2, type: 3}
+  - {fileID: 5885106867128739669, guid: fdc0a69abcf13014683f0f1b49e5a201, type: 3}
+  - {fileID: 5885106867128739669, guid: 3cf7354ec50a6224b9194d66ed916ac2, type: 3}
   spawnPoint: {fileID: 572050414}
   waitPoint: {fileID: 564089041}
   exitPoint: {fileID: 1117257780}
@@ -509,7 +512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566838021}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
