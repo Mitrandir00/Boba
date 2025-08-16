@@ -32,7 +32,7 @@ public class CustomerController : MonoBehaviour
 
     void Awake()
     {
-        if (!order)   order   = GetComponentInChildren<CustomerOrder>(true);
+        if (!order) order = GetComponentInChildren<CustomerOrder>(true);
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
     }
 
@@ -107,7 +107,7 @@ public class CustomerController : MonoBehaviour
 
         if (orderUI) orderUI.ShowYesNo(correct);
         if (correct) OnOrderCorrect?.Invoke();
-        else         OnOrderWrong?.Invoke();
+        else OnOrderWrong?.Invoke();
 
         BeginExit();
     }
@@ -124,4 +124,22 @@ public class CustomerController : MonoBehaviour
         state = State.Exiting;
         target = exitPoint ? exitPoint.position : transform.position;
     }
+
+    public void LeaveSatisfied()
+    {
+        // opzionale: balloon “Sì”
+        // orderUI.ShowReaction(true);  // se hai un metodo simile, altrimenti lascia un Debug.Log
+        if (orderUI) orderUI.ShowYesNo(true);
+        BeginExit();
+    }
+
+    public void LeaveDisappointed()
+    {
+        // opzionale: balloon “No”
+        // orderUI.ShowReaction(false);
+         if (orderUI) orderUI.ShowYesNo(false);
+        BeginExit();
+        // eventualmente applica una penalità/feedback qui
+    }
+
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4126905806053443019}
   - component: {fileID: 7484696229964846136}
   - component: {fileID: 5918979064252942795}
+  - component: {fileID: 225192927840799419}
   m_Layer: 0
   m_Name: DrinkOption
   m_TagString: Untagged
@@ -151,3 +152,16 @@ MonoBehaviour:
   OnClicked:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &225192927840799419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466822397879590803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b048bb818e2a1b34f81a0de6777f9e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isCorrect: 0
