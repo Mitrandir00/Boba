@@ -12,6 +12,11 @@ public class CustomerOrder : MonoBehaviour
     [Header("UI Hook")]
     [SerializeField] public CustomerOrderUI orderUI;
 
+    [Header("Eventi")]
+    public UnityEngine.Events.UnityEvent OnCorrectDrink;
+    public UnityEngine.Events.UnityEvent OnWrongDrink;
+
+
     void Awake()
     {
         // Fallback automatici per non scordare gli slot
@@ -56,20 +61,44 @@ public class CustomerOrder : MonoBehaviour
         for (int i = 0; i < req.Count; i++)
         {
             if (req[i].ingredient != del[i].ingredient) return false;
-            if (req[i].amount     != del[i].amount)     return false;
+            if (req[i].amount != del[i].amount) return false;
         }
         return true;
     }
 
     private List<IngredientSpec> Normalize(List<IngredientSpec> slots)
     {
-        // Confronto deterministico: ordina per nome ingrediente, poi per quantità
-        return slots
-            .OrderBy(s => s.ingredient)   // se è string/enum/ID va bene
-            .ThenBy(s => s.amount)
-            .ToList();
+        var agg = new Dictionary<Ingredient, int>();
+        foreach (var s in slots)
+        {
+            if (!agg.ContainsKey(s.ingredient)) agg[s.ingredient] = 0;
+            agg[s.ingredient] = Mathf.Clamp(agg[s.ingredient] + s.amount, 0, 3);
+        }
+        return agg.Select(kv => new IngredientSpec { ingredient = kv.Key, amount = kv.Value })
+                  .OrderBy(s => s.ingredient)
+                  .ToList();
     }
 
+    public void ReceiveDrink(BobaRecipe delivered)
+    {
+        var report = RecipeComparer.Compare(requestedRecipe, delivered);
+        if (report.isExactMatch)
+        {
+            OnCorrectDrink?.Invoke();
+        }
+        else
+        {
+            // DEBUG: spiega perché è sbagliato
+            var sb = new StringBuilder();
+            foreach (var kv in report.missing) sb.AppendLine($"MISSING {kv.Key} need {kv.Value}");
+            foreach (var kv in report.extra) sb.AppendLine($"EXTRA   {kv.Key} got {kv.Value}");
+            foreach (var kv in report.wrongAmount) sb.AppendLine($"WRONG   {kv.Key} expected {kv.Value.expected} got {kv.Value.got}");
+            if (sb.Length > 0) Debug.Log(sb.ToString());
+
+            OnWrongDrink?.Invoke();
+        }
+    }
+    
     /// <summary>
     /// Pulisce/Nasconde la UI quando il cliente va via.
     /// </summary>

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1565856699276464319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6767591221208376401}
+  m_Layer: 0
+  m_Name: Spawn-1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6767591221208376401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565856699276464319}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 517764264722105666}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4662785828350970657
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +148,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balloonRoot: {fileID: 4662785828350970657}
   recipeText: {fileID: 7953094941029500185}
+--- !u!1 &5190820068727947535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3895981794363751347}
+  m_Layer: 0
+  m_Name: Spawn-2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3895981794363751347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190820068727947535}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 517764264722105666}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5885106867128739669
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +212,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4957673254443212667}
+  - {fileID: 517764264722105666}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2747259884276052177
@@ -241,7 +304,14 @@ MonoBehaviour:
   OnWaitTimedOut:
     m_PersistentCalls:
       m_Calls: []
+  order: {fileID: 0}
   orderUI: {fileID: 4391604246880468136}
+  OnOrderCorrect:
+    m_PersistentCalls:
+      m_Calls: []
+  OnOrderWrong:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3640154169963974238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +326,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: 4099d2a065535144fb5b540be91fdf3c, type: 2}
   orderUI: {fileID: 4391604246880468136}
+  OnCorrectDrink:
+    m_PersistentCalls:
+      m_Calls: []
+  OnWrongDrink:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7667775152191425869
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +468,57 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7909132166991650551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517764264722105666}
+  - component: {fileID: 9084112854396053777}
+  m_Layer: 0
+  m_Name: OptionSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &517764264722105666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909132166991650551}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6767591221208376401}
+  - {fileID: 3895981794363751347}
+  m_Father: {fileID: 5641408076611406115}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9084112854396053777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909132166991650551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259284c408619c342add2a9392c6dd8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCustomer: {fileID: 0}
+  drinkOptionPrefab: {fileID: 466822397879590803, guid: 1af6ad6cbdafe8c4b8cec3ade4c50b38, type: 3}
+  spawnA: {fileID: 6767591221208376401}
+  spawnB: {fileID: 3895981794363751347}
+  destroyOptionsOnPick: 1
 --- !u!1 &9166090846534160756
 GameObject:
   m_ObjectHideFlags: 0
