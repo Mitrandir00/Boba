@@ -501,13 +501,25 @@ MonoBehaviour:
   OnReadyToOrder:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2714779637049555203}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 6868724971920214771}
+        m_TargetAssemblyTypeName: CustomerOrder, Assembly-CSharp
+        m_MethodName: PickAndShowOrder
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8936691063932232679}
+        m_TargetAssemblyTypeName: OptionSpawner, Assembly-CSharp
+        m_MethodName: SpawnTwoOptions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -516,13 +528,13 @@ MonoBehaviour:
   OnWaitTimedOut:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 8936691063932232679}
+        m_TargetAssemblyTypeName: OptionSpawner, Assembly-CSharp
+        m_MethodName: ClearOptions
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -532,19 +544,7 @@ MonoBehaviour:
   orderUI: {fileID: 7738193681199172893}
   OnOrderCorrect:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnOrderWrong:
     m_PersistentCalls:
       m_Calls: []
