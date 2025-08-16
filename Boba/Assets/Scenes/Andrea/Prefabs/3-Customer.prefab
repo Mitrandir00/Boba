@@ -539,10 +539,34 @@ MonoBehaviour:
   orderUI: {fileID: 1575609319670246567}
   OnCorrectDrink:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4599316684999844000}
+        m_TargetAssemblyTypeName: CustomerController, Assembly-CSharp
+        m_MethodName: LeaveSatisfied
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnWrongDrink:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4599316684999844000}
+        m_TargetAssemblyTypeName: CustomerController, Assembly-CSharp
+        m_MethodName: LeaveDisappointed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8380974310316547711
 GameObject:
   m_ObjectHideFlags: 0

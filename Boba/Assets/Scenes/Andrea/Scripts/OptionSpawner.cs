@@ -53,6 +53,21 @@ public class OptionSpawner : MonoBehaviour
         ca.recipe = aRecipe;
         cb.recipe = bRecipe;
 
+        // indica quale è corretto/sbagliato
+        var ta = _optA.GetComponent<DrinkTag>();
+        var tb = _optB.GetComponent<DrinkTag>();
+        if (ta)
+        {
+            ta.isCorrect = aRecipe == targetCustomer.requestedRecipe;
+            ta.ApplyDebugStyle();
+        }
+        if (tb)
+        {
+            tb.isCorrect = bRecipe == targetCustomer.requestedRecipe;
+            tb.ApplyDebugStyle();
+        }
+
+
         ca.OnClicked.AddListener(OnDrinkPicked);
         cb.OnClicked.AddListener(OnDrinkPicked);
     }
@@ -73,34 +88,68 @@ public class OptionSpawner : MonoBehaviour
     public BobaRecipe MakeDecoy(BobaRecipe source)
     {
         if (!source) return null;
-        var decoy = ScriptableObject.CreateInstance<BobaRecipe>();
-        decoy.id = source.id + "_decoy";
-        decoy.displayName = source.displayName + " (decoy)";
-        decoy.icon = source.icon;
 
-        foreach (var s in source.ingredients)
-            decoy.ingredients.Add(new IngredientSpec { ingredient = s.ingredient, amount = s.amount });
-
-        if (decoy.ingredients.Count > 0)
+        // funzione di clone runtime
+        BobaRecipe Clone(BobaRecipe r)
         {
-            int i = Random.Range(0, decoy.ingredients.Count);
-            if (Random.value < 0.5f)
+            var c = ScriptableObject.CreateInstance<BobaRecipe>();
+            c.id = r.id + "_clone";
+            c.displayName = r.displayName;
+            c.icon = r.icon;
+            foreach (var s in r.ingredients)
+                c.ingredients.Add(new IngredientSpec { ingredient = s.ingredient, amount = s.amount });
+            return c;
+        }
+
+        // Prova a generare una ricetta diversa, max 12 tentativi
+        for (int attempt = 0; attempt < 12; attempt++)
+        {
+            var decoy = Clone(source);
+
+            if (decoy.ingredients.Count > 0)
             {
-                int newLevel = Random.Range(0, 4);
-                if (newLevel == decoy.ingredients[i].amount)
-                    newLevel = (newLevel + 1) % 4;
-                decoy.ingredients[i].amount = newLevel;
+                int i = Random.Range(0, decoy.ingredients.Count);
+
+                if (Random.value < 0.5f)
+                {
+                    // cambia quantità 0..3 evitando la stessa
+                    int newLevel = Random.Range(0, 4);
+                    if (newLevel == decoy.ingredients[i].amount)
+                        newLevel = (newLevel + 1) % 4;
+                    decoy.ingredients[i].amount = newLevel;
+                }
+                else
+                {
+                    // cambia ingrediente (fallback: vicino nell'enum)
+                    int cur = (int)decoy.ingredients[i].ingredient;
+                    int last = System.Enum.GetValues(typeof(Ingredient)).Length - 1;
+                    int delta = Random.value < 0.5f ? -1 : 1;
+                    int altIndex = Mathf.Clamp(cur + delta, 0, last);
+                    if (altIndex != cur) decoy.ingredients[i].ingredient = (Ingredient)altIndex;
+                    else decoy.ingredients[i].amount = (decoy.ingredients[i].amount + 1) % 4;
+                }
             }
-            else
+
+            // Verifica che sia DAVVERO diverso
+            var rep = RecipeComparer.Compare(source, decoy);
+            if (!rep.isExactMatch)
             {
-                int cur = (int)decoy.ingredients[i].ingredient;
-                int last = System.Enum.GetValues(typeof(Ingredient)).Length - 1;
-                int delta = Random.value < 0.5f ? -1 : 1;
-                int altIndex = Mathf.Clamp(cur + delta, 0, last);
-                if (altIndex != cur) decoy.ingredients[i].ingredient = (Ingredient)altIndex;
-                else decoy.ingredients[i].amount = (decoy.ingredients[i].amount + 1) % 4;
+                decoy.id = source.id + "_decoy";
+                decoy.displayName = source.displayName + " (decoy)";
+                return decoy;
             }
         }
-        return decoy;
+
+        // fallback (non dovrebbe mai capitare)
+        var fallback = ScriptableObject.CreateInstance<BobaRecipe>();
+        fallback.id = source.id + "_decoy_fallback";
+        fallback.displayName = source.displayName + " (decoy)";
+        fallback.icon = source.icon;
+        foreach (var s in source.ingredients)
+            fallback.ingredients.Add(new IngredientSpec { ingredient = s.ingredient, amount = s.amount });
+        if (fallback.ingredients.Count > 0)
+            fallback.ingredients[0].amount = (fallback.ingredients[0].amount + 1) % 4;
+        return fallback;
     }
+
 }
