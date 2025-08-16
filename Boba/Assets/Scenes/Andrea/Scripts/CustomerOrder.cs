@@ -88,13 +88,6 @@ public class CustomerOrder : MonoBehaviour
         }
         else
         {
-            // DEBUG: spiega perché è sbagliato
-            var sb = new StringBuilder();
-            foreach (var kv in report.missing) sb.AppendLine($"MISSING {kv.Key} need {kv.Value}");
-            foreach (var kv in report.extra) sb.AppendLine($"EXTRA   {kv.Key} got {kv.Value}");
-            foreach (var kv in report.wrongAmount) sb.AppendLine($"WRONG   {kv.Key} expected {kv.Value.expected} got {kv.Value.got}");
-            if (sb.Length > 0) Debug.Log(sb.ToString());
-
             OnWrongDrink?.Invoke();
         }
     }
