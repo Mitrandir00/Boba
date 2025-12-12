@@ -1,31 +1,34 @@
 fileFormatVersion: 2
-guid: 1ec258932e0b77a42bc1185769528b05
+guid: 75c6e88aa9293f24895ce7f848e3c39e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6551385992417117013
-    second: Boba_0
+      213: 5884190514063859418
+    second: BobaType_0
   - first:
-      213: -6289029069854489641
-    second: Boba_1
+      213: 630380874424150246
+    second: BobaType_1
   - first:
-      213: -4274940968253214980
-    second: Boba_2
+      213: 1927564654051075651
+    second: BobaType_2
   - first:
-      213: -8800503231012463364
-    second: Boba_3
+      213: 6089594881070129256
+    second: BobaType_3
   - first:
-      213: -7774529416726784496
-    second: Boba_4
+      213: 3123222814994697798
+    second: BobaType_4
   - first:
-      213: 3782600928079937704
-    second: Boba_5
+      213: 2113362798244659021
+    second: BobaType_5
   - first:
-      213: 3028113335345572995
-    second: Boba_6
+      213: 5421057135033685817
+    second: BobaType_6
   - first:
-      213: -8631278064440507967
-    second: Boba_7
+      213: -7564368728751175764
+    second: BobaType_7
+  - first:
+      213: -521602588313466618
+    second: BobaType_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -121,7 +124,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Boba_0
+      name: BobaType_0
       rect:
         serializedVersion: 2
         x: 79
@@ -136,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5530e7079d23bea50800000000000000
-      internalID: 6551385992417117013
+      spriteID: adedf75c818d8a150800000000000000
+      internalID: 5884190514063859418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_1
+      name: BobaType_1
       rect:
         serializedVersion: 2
         x: 358
@@ -158,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d3c735b161e8b8a0800000000000000
-      internalID: -6289029069854489641
+      spriteID: 6e8604db0109fb800800000000000000
+      internalID: 630380874424150246
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_2
+      name: BobaType_2
       rect:
         serializedVersion: 2
         x: 641
@@ -180,14 +183,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfea087c6db5ca4c0800000000000000
-      internalID: -4274940968253214980
+      spriteID: 346205617d510ca10800000000000000
+      internalID: 1927564654051075651
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_3
+      name: BobaType_3
       rect:
         serializedVersion: 2
         x: 925
@@ -202,14 +205,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cfc13de30f45ed580800000000000000
-      internalID: -8800503231012463364
+      spriteID: 860e830c746928450800000000000000
+      internalID: 6089594881070129256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_4
+      name: BobaType_4
       rect:
         serializedVersion: 2
         x: 1203
@@ -224,14 +227,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 016dc2ccfa25b1490800000000000000
-      internalID: -7774529416726784496
+      spriteID: 64e872a4a9ae75b20800000000000000
+      internalID: 3123222814994697798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_5
+      name: BobaType_5
       rect:
         serializedVersion: 2
         x: 1482
@@ -246,14 +249,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8a08445c08f7e7430800000000000000
-      internalID: 3782600928079937704
+      spriteID: d4ff5e6944c245d10800000000000000
+      internalID: 2113362798244659021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_6
+      name: BobaType_6
       rect:
         serializedVersion: 2
         x: 1762
@@ -268,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38c65ece805060a20800000000000000
-      internalID: 3028113335345572995
+      spriteID: 93797c80eb67b3b40800000000000000
+      internalID: 5421057135033685817
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Boba_7
+      name: BobaType_7
       rect:
         serializedVersion: 2
         x: 2054
@@ -290,8 +293,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c10763b45a873880800000000000000
-      internalID: -8631278064440507967
+      spriteID: ca786bc08b6f50790800000000000000
+      internalID: -7564368728751175764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BobaType_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 563
+        width: 236
+        height: 454
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 609c6a1a535e2c8f0800000000000000
+      internalID: -521602588313466618
       vertices: []
       indices: 
       edges: []
@@ -310,14 +335,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Boba_0: 6551385992417117013
-      Boba_1: -6289029069854489641
-      Boba_2: -4274940968253214980
-      Boba_3: -8800503231012463364
-      Boba_4: -7774529416726784496
-      Boba_5: 3782600928079937704
-      Boba_6: 3028113335345572995
-      Boba_7: -8631278064440507967
+      BobaType_0: 5884190514063859418
+      BobaType_1: 630380874424150246
+      BobaType_2: 1927564654051075651
+      BobaType_3: 6089594881070129256
+      BobaType_4: 3123222814994697798
+      BobaType_5: 2113362798244659021
+      BobaType_6: 5421057135033685817
+      BobaType_7: -7564368728751175764
+      BobaType_8: -521602588313466618
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

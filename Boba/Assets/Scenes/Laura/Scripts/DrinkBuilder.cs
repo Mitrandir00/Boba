@@ -5,78 +5,130 @@ using UnityEngine.Events;
 [System.Serializable]
 public class IngredientVisualEntry
 {
-    public Ingredient ingredient; // L'ingrediente (Enum)
-    public Sprite visualSprite;   // L'immagine da mostrare nello slot
+    public Ingredient ingredient; 
+    public Sprite visualSprite;   
 }
 
 public class DrinkBuilder : MonoBehaviour
 {
-    [Header("Configurazione")]
+    [Header("Configurazione Base")]
     public string displayName = "Personalizzato";
-    public Sprite icon;
+    public Sprite icon; // Icona generica di default
 
-    [Header("Visualizzazione - Slot")]
-    // Trascina qui i 4 GameObjects con SpriteRenderer che hai creato (Slot1, Slot2...)
+    [Header("Database Ricette")]
+    public BobaDatabase database; // TRASCINA QUI IL TUO BobaDatabase
+
+    [Header("Visualizzazione - Slot Ingredienti")]
     public List<SpriteRenderer> visualSlots; 
-
-    // Qui associ: Enum -> Sprite (es. Tapioca -> Immagine palline)
     public List<IngredientVisualEntry> visualConfig;
+
+    [Header("Visualizzazione - Risultato Finale")]
+    public SpriteRenderer finalDrinkRenderer; // TRASCINA QUI IL NUOVO OGGETTO "FinalDrink"
+    public Sprite undefinedDrinkSprite;       // TRASCINA QUI LO SPRITE "SBOBBA/ERRORE"
 
     [Header("Eventi")]
     public UnityEvent<BobaRecipe> OnBuilt; 
 
     // STATO INTERNO
-    // Usiamo una Lista per mantenere l'ordine di inserimento
     private List<Ingredient> _addedIngredients = new List<Ingredient>();
     private const int MAX_INGREDIENTS = 4;
 
-    // Helper per ottenere l'amount (usato dai bottoni per mostrare i livelli)
+    void Start()
+    {
+        // All'avvio nascondiamo il drink finito se è visibile
+        if (finalDrinkRenderer) finalDrinkRenderer.gameObject.SetActive(false);
+    }
+
     public int GetAmount(Ingredient ing)
     {
-        // Se l'ingrediente è nella lista, ritorniamo 2 (Normal), altrimenti 0
         return _addedIngredients.Contains(ing) ? 2 : 0;
     }
 
     public void Add(Ingredient ing)
     {
-        // 1. Se l'ingrediente è già presente, lo RIMUOVIAMO (Toggle Off)
+        // Se il drink è già shakerato (finito), resettiamo tutto se clicchi un ingrediente
+        if (finalDrinkRenderer.gameObject.activeSelf)
+        {
+            ClearAll();
+        }
+
         if (_addedIngredients.Contains(ing))
         {
             _addedIngredients.Remove(ing);
         }
         else
         {
-            // 2. Se non c'è, controlliamo se c'è spazio (Max 4)
             if (_addedIngredients.Count < MAX_INGREDIENTS)
             {
                 _addedIngredients.Add(ing);
             }
-            else
+        }
+        UpdateVisuals();
+    }
+
+    // Funzione collegata al BOTTONE SHAKER
+    public void Shake()
+    {
+        // 1. Costruiamo la ricetta attuale
+        BobaRecipe currentRecipe = BuildRuntimeRecipe();
+        
+        // 2. Cerchiamo nel database se esiste questa combinazione
+        BobaRecipe foundMatch = null;
+
+        if (database != null)
+        {
+            foreach (var recipe in database.allRecipes)
             {
-                Debug.Log("Bicchiere pieno! Massimo 4 ingredienti.");
-                return; // Esce senza fare nulla
+                // Usiamo il tuo RecipeComparer già esistente nel progetto
+                var report = RecipeComparer.Compare(recipe, currentRecipe);
+                if (report.isExactMatch)
+                {
+                    foundMatch = recipe;
+                    break; // Trovata!
+                }
             }
         }
 
-        // 3. Aggiorniamo la grafica
-        UpdateVisuals();
+        // 3. Nascondiamo gli ingredienti sfusi
+        foreach (var slot in visualSlots)
+        {
+            slot.gameObject.SetActive(false);
+        }
+
+        // 4. Mostriamo il risultato finale
+        if (finalDrinkRenderer != null)
+        {
+            finalDrinkRenderer.gameObject.SetActive(true);
+
+            if (foundMatch != null)
+            {
+                // Se esiste, mostra l'icona della ricetta
+                finalDrinkRenderer.sprite = foundMatch.icon;
+                Debug.Log("Drink creato: " + foundMatch.displayName);
+            }
+            else
+            {
+                // Se non esiste, mostra lo sprite "Indefinito"
+                finalDrinkRenderer.sprite = undefinedDrinkSprite;
+                Debug.Log("Nessuna ricetta trovata: Drink Indefinito");
+            }
+        }
     }
 
     private void UpdateVisuals()
     {
-        // A. Resettiamo tutti gli slot (li svuotiamo)
+        // Se stiamo modificando gli ingredienti, nascondiamo il drink finito
+        if (finalDrinkRenderer) finalDrinkRenderer.gameObject.SetActive(false);
+
         foreach (var slot in visualSlots)
         {
             slot.sprite = null;
             slot.gameObject.SetActive(false);
         }
 
-        // B. Riempiamo gli slot in base all'ordine della lista
         for (int i = 0; i < _addedIngredients.Count; i++)
         {
             Ingredient ing = _addedIngredients[i];
-            
-            // Cerchiamo lo sprite giusto nella configurazione
             Sprite spriteToUse = GetSpriteFor(ing);
 
             if (spriteToUse != null && i < visualSlots.Count)
@@ -99,21 +151,18 @@ public class DrinkBuilder : MonoBehaviour
     public void ClearAll()
     {
         _addedIngredients.Clear();
-        UpdateVisuals();
+        UpdateVisuals(); // Questo nasconderà anche il finalDrinkRenderer
     }
 
-    // Costruisce la ricetta finale per il cliente
     public BobaRecipe BuildRuntimeRecipe()
     {
         var r = ScriptableObject.CreateInstance<BobaRecipe>();
         r.id = "custom_runtime";
         r.displayName = displayName;
         r.icon = icon;
-
-        // Convertiamo la lista ordinata nel formato richiesto dalla ricetta
         foreach (var ing in _addedIngredients)
         {
-            // Aggiungiamo con quantità 2 (Normal) come standard
+            // Nota: Usiamo level 2 (Normal) come standard per il confronto
             r.ingredients.Add(new IngredientSpec { ingredient = ing, amount = 2 });
         }
         return r;
@@ -121,7 +170,6 @@ public class DrinkBuilder : MonoBehaviour
 
     public void Confirm()
     {
-        var built = BuildRuntimeRecipe();
-        OnBuilt?.Invoke(built);
+        OnBuilt?.Invoke(BuildRuntimeRecipe());
     }
 }
