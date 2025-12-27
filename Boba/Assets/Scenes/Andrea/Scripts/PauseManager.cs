@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
     [Header("Trascina qui l'oggetto 'PauseMenu' intero")]
     public GameObject pauseMenuPanel;
+    
+    [Header("Oggetti Audio")]
+    public AudioSource backgroundMusic;
 
     private bool isPaused = false;
 
@@ -42,5 +46,15 @@ public class PauseManager : MonoBehaviour
     {
         Debug.Log("Hai premuto Esci! Il gioco si sta chiudendo...");
         Application.Quit();
+    }
+
+    // --- NUOVA FUNZIONE: IL VOLUME ---
+    public void SetVolume(float volume)
+    {
+        // Se c'è la musica, cambia il volume
+        if (backgroundMusic != null)
+        {
+            backgroundMusic.volume = volume;
+        }
     }
 }
