@@ -8,17 +8,10 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
     
-    [Header("Audio Sliders")]
-    public Slider musicVolumeSlider;
-    public Slider sfxVolumeSlider;
-    
     void Start()
     {
         // Mostra menu principale all'avvio
         ShowMainMenu();
-        
-        // Carica volumi salvati
-        LoadVolumeSettings();
     }
     
     void Update()
@@ -52,9 +45,11 @@ public class MenuManager : MonoBehaviour
     
     // === PULSANTI MENU PRINCIPALE ===
     
-    public void LoadScene(string main)  //vabbè ovviamente anche qui
+    // === PULSANTI MENU PRINCIPALE ===
+
+    public void PlayGame() 
     {
-        SceneManager.LoadScene(main); //QUI VA AGGIUNTO IL NOME DELLA SCENA DA CARICARE
+        SceneManager.LoadScene("Main"); 
     }
     
     public void OpenOptions()
@@ -84,41 +79,6 @@ public class MenuManager : MonoBehaviour
         ShowMainMenu();
         Debug.Log("Tornato al menu principale");
     }
-    
-    // === GESTIONE AUDIO ===
-    
-    public void OnMusicVolumeChanged()
-    {
-        if (musicVolumeSlider != null)
-        {
-            float volume = musicVolumeSlider.value;
-            PlayerPrefs.SetFloat("MusicVolume", volume);
-            Debug.Log("Volume musica: " + (volume * 100) + "%");
-        }
-    }
-    
-    public void OnSFXVolumeChanged()
-    {
-        if (sfxVolumeSlider != null)
-        {
-            float volume = sfxVolumeSlider.value;
-            PlayerPrefs.SetFloat("SFXVolume", volume);
-            Debug.Log("Volume effetti: " + (volume * 100) + "%");
-        }
-    }
-    
-    void LoadVolumeSettings()
-    {
-        if (musicVolumeSlider != null)
-        {
-            float musicVol = PlayerPrefs.GetFloat("MusicVolume", 0.7f);
-            musicVolumeSlider.value = musicVol;
-        }
-        
-        if (sfxVolumeSlider != null)
-        {
-            float sfxVol = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
-            sfxVolumeSlider.value = sfxVol;
-        }
-    }
 }
+    
+    
