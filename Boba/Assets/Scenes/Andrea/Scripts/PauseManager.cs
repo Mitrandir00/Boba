@@ -35,10 +35,14 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
     }
 
-    //FUNZIONE 3: Apre le opzioni
-    public void OpenOptions()
+    //FUNZIONE 3: Torna alla Homepage
+    public void GoToMainMenu()
     {
-        Debug.Log("Qui si apriranno le opzioni!"); 
+        // FONDAMENTALE: Prima di uscire, dobbiamo far ripartire il tempo!
+        // Se non lo fai, quando ricominci a giocare il gioco sarà ancora congelato.
+        Time.timeScale = 1f; 
+        
+        SceneManager.LoadScene("MainMenu");
     }
 
     //FUNZIONE 4: esce dal gioco
