@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: strawberry_latte
   displayName: Strawberry latte
-  icon: {fileID: 0}
+  icon: {fileID: 2113362798244659021, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 2
     amount: 2

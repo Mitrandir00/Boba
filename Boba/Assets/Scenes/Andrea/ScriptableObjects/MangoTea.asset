@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: mango_green_tea
   displayName: Mango Green Tea
-  icon: {fileID: 0}
+  icon: {fileID: -7564368728751175764, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 1
     amount: 2
