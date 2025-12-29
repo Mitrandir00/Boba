@@ -52,7 +52,17 @@ public class PauseManager : MonoBehaviour
         Application.Quit();
     }
 
-    // --- NUOVA FUNZIONE: IL VOLUME ---
+    // FUNZIONE 5: Riavvia il livello corrente
+    public void RestartLevel()
+    {
+        // Importante: scongela il gioco prima di ricaricare!
+        Time.timeScale = 1f; 
+        
+        // Ricarica la scena che stai giocando adesso (resetta tutto)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // FUNZIONE VOLUME
     public void SetVolume(float volume)
     {
         // Se c'è la musica, cambia il volume
