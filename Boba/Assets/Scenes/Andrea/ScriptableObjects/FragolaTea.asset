@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: fragola_green_tea
   displayName: Fragola Green Tea
-  icon: {fileID: 0}
+  icon: {fileID: 5884190514063859418, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 2
     amount: 2

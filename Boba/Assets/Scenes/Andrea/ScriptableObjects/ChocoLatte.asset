@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: choco_latte
   displayName: Choco Latte
-  icon: {fileID: 0}
+  icon: {fileID: 630380874424150246, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 0
     amount: 2

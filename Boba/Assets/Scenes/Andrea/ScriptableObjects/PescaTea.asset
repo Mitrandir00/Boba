@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: pesca_green_tea
   displayName: Pesca Green tea
-  icon: {fileID: 0}
+  icon: {fileID: 3123222814994697798, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 3
     amount: 2
