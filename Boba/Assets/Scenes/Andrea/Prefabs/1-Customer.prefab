@@ -419,8 +419,8 @@ Transform:
   m_GameObject: {fileID: 5885106867128739669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalPosition: {x: -14, y: 0, z: 0}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6524966142184597473}
@@ -498,6 +498,10 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   moveSpeed: 2.5
   maxWaitSeconds: 12
+  enableSettleHop: 1
+  hopHeight: 0.09
+  hopUpTime: 0.09
+  hopDownTime: 0.13
   OnReadyToOrder:
     m_PersistentCalls:
       m_Calls:
