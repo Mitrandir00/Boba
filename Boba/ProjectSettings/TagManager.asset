@@ -53,5 +53,8 @@ TagManager:
   - name: Wall
     uniqueID: 219092621
     locked: 0
+  - name: Ingredient
+    uniqueID: 1205679683
+    locked: 0
   m_RenderingLayers:
   - Default
