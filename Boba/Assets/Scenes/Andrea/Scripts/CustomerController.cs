@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class CustomerController : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class CustomerController : MonoBehaviour
 
     [Header("Attesa")]
     [SerializeField] private float maxWaitSeconds = 10f;
+
+    [Header("Saltello di assestamento (al waitPoint)")]
+    [SerializeField] private bool enableSettleHop = true;
+    [SerializeField] private float hopHeight = 0.30f;   // piccolo: 0.04 - 0.12
+    [SerializeField] private float hopUpTime = 0.05f;   // veloce
+    [SerializeField] private float hopDownTime = 0.010f; // leggermente più lento
 
     [Header("Eventi di stato")]
     public UnityEvent OnReadyToOrder;   // collega -> CustomerOrder.PickAndShowOrder()
@@ -30,6 +37,9 @@ public class CustomerController : MonoBehaviour
     private Vector3 target;
     private float waitTimer;
 
+    // evita di far partire più volte la coroutine mentre Update gira
+    private bool settling = false;
+
     void Awake()
     {
         if (!order) order = GetComponentInChildren<CustomerOrder>(true);
@@ -46,7 +56,8 @@ public class CustomerController : MonoBehaviour
 
     void Update()
     {
-        if (state == State.Entering || state == State.Exiting)
+        // movimento in entrata/uscita
+        if ((state == State.Entering || state == State.Exiting) && !settling)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
 
@@ -54,9 +65,19 @@ public class CustomerController : MonoBehaviour
             {
                 if (state == State.Entering)
                 {
-                    state = State.Waiting;
-                    waitTimer = 0f;
-                    OnReadyToOrder?.Invoke(); // -> CustomerOrder.PickAndShowOrder()
+                    // snap preciso (così il saltello parte davvero "alla fine")
+                    transform.position = target;
+
+                    if (enableSettleHop)
+                    {
+                        // blocca Update e fai saltello, poi entra in Waiting
+                        StartCoroutine(ArrivedAtWaitPointRoutine());
+                    }
+                    else
+                    {
+                        // nessun saltello
+                        EnterWaitingState();
+                    }
                 }
                 else if (state == State.Exiting)
                 {
@@ -65,6 +86,7 @@ public class CustomerController : MonoBehaviour
             }
         }
 
+        // logica di attesa
         if (state == State.Waiting)
         {
             waitTimer += Time.deltaTime;
@@ -94,6 +116,61 @@ public class CustomerController : MonoBehaviour
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Routine chiamata appena il cliente ARRIVA al waitPoint:
+    /// fa il saltello di assestamento e poi attiva ordine/UI.
+    /// </summary>
+    private IEnumerator ArrivedAtWaitPointRoutine()
+    {
+        settling = true;
+
+        yield return StartCoroutine(SettleHop());
+
+        settling = false;
+
+        EnterWaitingState();
+    }
+
+    private void EnterWaitingState()
+    {
+        state = State.Waiting;
+        waitTimer = 0f;
+
+        // Ora che è fermo e "assestato", mostri l’ordine
+        OnReadyToOrder?.Invoke(); // -> CustomerOrder.PickAndShowOrder()
+    }
+
+    private IEnumerator SettleHop()
+    {
+        Vector3 basePos = transform.position;
+        Vector3 upPos = basePos + Vector3.up * hopHeight;
+
+        // su (ease-out)
+        float t = 0f;
+        while (t < hopUpTime)
+        {
+            t += Time.deltaTime;
+            float x = Mathf.Clamp01(t / hopUpTime);
+            float e = 1f - Mathf.Pow(1f - x, 2f); // easeOutQuad
+            transform.position = Vector3.LerpUnclamped(basePos, upPos, e);
+            yield return null;
+        }
+        transform.position = upPos;
+
+        // giù (ease-in)
+        t = 0f;
+        while (t < hopDownTime)
+        {
+            t += Time.deltaTime;
+            float x = Mathf.Clamp01(t / hopDownTime);
+            float e = x * x; // easeInQuad
+            transform.position = Vector3.LerpUnclamped(upPos, basePos, e);
+            yield return null;
+        }
+
+        transform.position = basePos;
     }
 
     /// <summary>
@@ -127,19 +204,13 @@ public class CustomerController : MonoBehaviour
 
     public void LeaveSatisfied()
     {
-        // opzionale: balloon “Sì”
-        // orderUI.ShowReaction(true);  // se hai un metodo simile, altrimenti lascia un Debug.Log
         if (orderUI) orderUI.ShowYesNo(true);
         BeginExit();
     }
 
     public void LeaveDisappointed()
     {
-        // opzionale: balloon “No”
-        // orderUI.ShowReaction(false);
-         if (orderUI) orderUI.ShowYesNo(false);
+        if (orderUI) orderUI.ShowYesNo(false);
         BeginExit();
-        // eventualmente applica una penalità/feedback qui
     }
-
 }
