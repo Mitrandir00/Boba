@@ -103,28 +103,6 @@ public class CustomerController : MonoBehaviour
                 BeginExit();
                 return;
             }
-
-            // 🔧 MODALITÀ TEST: 1 = corretto, 2 = sbagliato
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                // nascondi ordine e mostra feedback
-                if (order) order.ClearUI();
-
-                if (orderUI) orderUI.ShowYesNo(true);
-                OnOrderCorrect?.Invoke();
-                BeginExit();
-                return;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                // nascondi ordine e mostra feedback
-                if (order) order.ClearUI();
-
-                if (orderUI) orderUI.ShowYesNo(false);
-                OnOrderWrong?.Invoke();
-                BeginExit();
-                return;
-            }
         }
     }
 
