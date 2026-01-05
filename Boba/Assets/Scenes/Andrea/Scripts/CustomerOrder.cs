@@ -12,16 +12,28 @@ public class CustomerOrder : MonoBehaviour
     [Header("UI Hook")]
     [SerializeField] public CustomerOrderUI orderUI;
 
+    [Header("Indicator (quadrato/nuvoletta sopra la testa)")]
+    [SerializeField] private CustomerOrderIndicator indicator;
+
     [Header("Eventi")]
     public UnityEngine.Events.UnityEvent OnCorrectDrink;
     public UnityEngine.Events.UnityEvent OnWrongDrink;
-
 
     void Awake()
     {
         // Fallback automatici per non scordare gli slot
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
-        if (!database) database = FindFirstObjectByType<BobaDatabase>();
+
+        // ⚠️ BobaDatabase è un ScriptableObject, quindi FindFirstObjectByType NON lo trova.
+        // Ti conviene assegnarlo da Inspector.
+        // Se vuoi un fallback, usa una reference via inspector o un manager.
+        // Qui lascio il tuo comportamento ma con un warning più chiaro:
+        if (!database)
+        {
+            Debug.LogWarning("[CustomerOrder] Database non assegnato! Trascina BobaDatabase nell'Inspector.");
+        }
+
+        if (!indicator) indicator = GetComponentInChildren<CustomerOrderIndicator>(true);
     }
 
     /// <summary>
@@ -36,13 +48,17 @@ public class CustomerOrder : MonoBehaviour
             return;
         }
 
+        // ✅ ACCENDE L’INDICATORE (oggi quadrato colorato, domani sprite nuvoletta)
+        if (indicator) indicator.Show(requestedRecipe);
+
         // Debug utile in console
         var sb = new StringBuilder();
-        sb.AppendLine($"Cliente vuole: {requestedRecipe.displayName}");
-        foreach (var s in requestedRecipe.ingredients) // List<IngredientSpec>
+        sb.AppendLine($"Cliente vuole: {requestedRecipe.displayName} ({requestedRecipe.id})");
+        foreach (var s in requestedRecipe.ingredients)
             sb.AppendLine($"- {s.ingredient} ({s.amount})");
         Debug.Log(sb.ToString());
 
+        // Balloon/ordine (se già lo usi)
         if (orderUI) orderUI.ShowOrder(requestedRecipe);
     }
 
@@ -74,6 +90,7 @@ public class CustomerOrder : MonoBehaviour
             if (!agg.ContainsKey(s.ingredient)) agg[s.ingredient] = 0;
             agg[s.ingredient] = Mathf.Clamp(agg[s.ingredient] + s.amount, 0, 3);
         }
+
         return agg.Select(kv => new IngredientSpec { ingredient = kv.Key, amount = kv.Value })
                   .OrderBy(s => s.ingredient)
                   .ToList();
@@ -83,20 +100,17 @@ public class CustomerOrder : MonoBehaviour
     {
         var report = RecipeComparer.Compare(requestedRecipe, delivered);
         if (report.isExactMatch)
-        {
             OnCorrectDrink?.Invoke();
-        }
         else
-        {
             OnWrongDrink?.Invoke();
-        }
     }
-    
+
     /// <summary>
     /// Pulisce/Nasconde la UI quando il cliente va via.
     /// </summary>
     public void ClearUI()
     {
         if (orderUI) orderUI.Hide();
+        if (indicator) indicator.Hide();
     }
 }
