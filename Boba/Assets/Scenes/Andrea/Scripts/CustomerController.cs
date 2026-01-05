@@ -16,8 +16,8 @@ public class CustomerController : MonoBehaviour
 
     [Header("Saltello di assestamento (al waitPoint)")]
     [SerializeField] private bool enableSettleHop = true;
-    [SerializeField] private float hopHeight = 0.30f;   // piccolo: 0.04 - 0.12
-    [SerializeField] private float hopUpTime = 0.05f;   // veloce
+    [SerializeField] private float hopHeight = 0.30f;    // piccolo: 0.04 - 0.12
+    [SerializeField] private float hopUpTime = 0.05f;    // veloce
     [SerializeField] private float hopDownTime = 0.010f; // leggermente più lento
 
     [Header("Eventi di stato")]
@@ -96,6 +96,10 @@ public class CustomerController : MonoBehaviour
             {
                 OnWaitTimedOut?.Invoke();
                 if (orderUI) orderUI.Stufo();
+
+                // opzionale: pulisci UI ordine se vuoi (di solito sì)
+                if (order) order.ClearUI();
+
                 BeginExit();
                 return;
             }
@@ -103,6 +107,9 @@ public class CustomerController : MonoBehaviour
             // 🔧 MODALITÀ TEST: 1 = corretto, 2 = sbagliato
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                // nascondi ordine e mostra feedback
+                if (order) order.ClearUI();
+
                 if (orderUI) orderUI.ShowYesNo(true);
                 OnOrderCorrect?.Invoke();
                 BeginExit();
@@ -110,6 +117,9 @@ public class CustomerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
+                // nascondi ordine e mostra feedback
+                if (order) order.ClearUI();
+
                 if (orderUI) orderUI.ShowYesNo(false);
                 OnOrderWrong?.Invoke();
                 BeginExit();
@@ -182,6 +192,10 @@ public class CustomerController : MonoBehaviour
 
         bool correct = order.Matches(delivered);
 
+        // ✅ NASCONDI SUBITO ORDINE (nuvoletta/quadrato + balloon)
+        order.ClearUI();
+
+        // poi mostra il feedback
         if (orderUI) orderUI.ShowYesNo(correct);
         if (correct) OnOrderCorrect?.Invoke();
         else OnOrderWrong?.Invoke();
@@ -192,6 +206,10 @@ public class CustomerController : MonoBehaviour
     public void ServeAndExit()
     {
         if (state != State.Waiting) return;
+
+        // opzionale: se lo servi “a prescindere”, nascondi ordine comunque
+        if (order) order.ClearUI();
+
         BeginExit();
     }
 
@@ -204,12 +222,18 @@ public class CustomerController : MonoBehaviour
 
     public void LeaveSatisfied()
     {
+        // nascondi ordine prima del feedback
+        if (order) order.ClearUI();
+
         if (orderUI) orderUI.ShowYesNo(true);
         BeginExit();
     }
 
     public void LeaveDisappointed()
     {
+        // nascondi ordine prima del feedback
+        if (order) order.ClearUI();
+
         if (orderUI) orderUI.ShowYesNo(false);
         BeginExit();
     }
