@@ -1662,8 +1662,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -4.350006, y: 0}
-  m_SizeDelta: {x: 8.7, y: 0}
+  m_AnchoredPosition: {x: 1.0899963, y: 0}
+  m_SizeDelta: {x: 19.58, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &378755175
 MonoBehaviour:
@@ -6252,7 +6252,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   builder: {fileID: 1709923124}
-  targetCustomer: {fileID: 0}
+  customerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  dropRadius: 0.35
 --- !u!4 &1651040093
 Transform:
   m_ObjectHideFlags: 0
@@ -6370,7 +6373,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   builder: {fileID: 1709923124}
-  targetCustomer: {fileID: 0}
+  customerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  dropRadius: 0.35
 --- !u!1 &1719985579
 GameObject:
   m_ObjectHideFlags: 0
