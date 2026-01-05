@@ -17,11 +17,11 @@ MonoBehaviour:
   icon: {fileID: 630380874424150246, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 0
-    amount: 1
+    amount: 2
   - ingredient: 7
-    amount: 1
+    amount: 2
   - ingredient: 13
-    amount: 1
+    amount: 2
   - ingredient: 14
-    amount: 1
+    amount: 2
   indicatorColor: {r: 0.5320754, g: 0.2904873, b: 0, a: 1}

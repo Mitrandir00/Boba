@@ -17,9 +17,9 @@ MonoBehaviour:
   icon: {fileID: -7564368728751175764, guid: 75c6e88aa9293f24895ce7f848e3c39e, type: 3}
   ingredients:
   - ingredient: 1
-    amount: 1
+    amount: 2
   - ingredient: 6
-    amount: 1
+    amount: 2
   - ingredient: 8
-    amount: 1
+    amount: 2
   indicatorColor: {r: 0.90943396, g: 0.74284726, b: 0.23164818, a: 1}
