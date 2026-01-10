@@ -14,6 +14,9 @@ public class CustomerController : MonoBehaviour
     [Header("Attesa")]
     [SerializeField] private float maxWaitSeconds = 10f;
 
+    [Header("Economia")] // NUOVO
+    public int rewardAmount = 20; // Quanto paga questo cliente se soddisfatto?
+
     [Header("Saltello di assestamento (al waitPoint)")]
     [SerializeField] private bool enableSettleHop = true;
     [SerializeField] private float hopHeight = 0.30f;    // piccolo: 0.04 - 0.12
@@ -175,8 +178,23 @@ public class CustomerController : MonoBehaviour
 
         // poi mostra il feedback
         if (orderUI) orderUI.ShowYesNo(correct);
-        if (correct) OnOrderCorrect?.Invoke();
-        else OnOrderWrong?.Invoke();
+
+        if (correct)
+        {
+            // --- MODIFICA: IL CLIENTE PAGA! 💰 ---
+            if (EconomyManager.instance != null)
+            {
+                EconomyManager.instance.AddCoins(rewardAmount);
+                Debug.Log("Cliente Soddisfatto! Hai guadagnato " + rewardAmount + " monete.");
+            }
+            // -------------------------------------
+
+            OnOrderCorrect?.Invoke();
+        }
+        else
+        {
+            OnOrderWrong?.Invoke();
+        }
 
         BeginExit();
     }
