@@ -22,4 +22,4 @@ MonoBehaviour:
     amount: 2
   - ingredient: 9
     amount: 2
-  indicatorColor: {r: 0.9924528, g: 0.50746167, b: 0.50746167, a: 1}
+  indicatorColor: {r: 1, g: 1, b: 1, a: 1}
