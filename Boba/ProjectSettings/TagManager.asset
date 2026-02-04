@@ -57,5 +57,8 @@ TagManager:
   - name: Ingredient
     uniqueID: 1205679683
     locked: 0
+  - name: UI
+    uniqueID: 3018527963
+    locked: 0
   m_RenderingLayers:
   - Default
