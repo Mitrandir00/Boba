@@ -4,6 +4,20 @@ using System.Collections;
 
 public class CustomerController : MonoBehaviour
 {
+    //per le espressioni del cliente
+    [Header("Visual Feedback (Varianti Espressioni)")]
+    [SerializeField] private SpriteRenderer faceSR;
+
+    [Tooltip("Inserisci 3 sprite neutri")]
+    [SerializeField] private Sprite[] neutralSprites;
+
+    [Tooltip("Inserisci 2 sprite felici")]
+    [SerializeField] private Sprite[] happySprites;
+
+    [Tooltip("Inserisci 2 sprite scontenti")]
+    [SerializeField] private Sprite[] sadSprites;
+
+    
     [Header("Waypoints")]
     [SerializeField] public Transform waitPoint;   // dove attende
     [SerializeField] public Transform exitPoint;   // uscita
@@ -70,6 +84,8 @@ public class CustomerController : MonoBehaviour
         target = waitPoint ? waitPoint.position : transform.position;
 
         if (orderUI) orderUI.Hide();
+        // Sceglie un'espressione neutra casuale all'arrivo
+        SetRandomSprite(neutralSprites);
     }
 
     void Update()
@@ -189,27 +205,25 @@ public class CustomerController : MonoBehaviour
         if (state != State.Waiting || order == null) return;
 
         bool correct = order.Matches(delivered);
-
-        // ✅ NASCONDI SUBITO ORDINE (nuvoletta/quadrato + balloon)
         order.ClearUI();
 
-        // poi mostra il feedback
         if (orderUI) orderUI.ShowYesNo(correct);
 
         if (correct)
         {
-            // --- MODIFICA: IL CLIENTE PAGA! 💰 ---
+            // Reazione Felice Casuale
+            SetRandomSprite(happySprites);
+
             if (EconomyManager.instance != null)
             {
                 EconomyManager.instance.AddCoins(rewardAmount);
-                Debug.Log("Cliente Soddisfatto! Hai guadagnato " + rewardAmount + " monete.");
             }
-            // -------------------------------------
-
             OnOrderCorrect?.Invoke();
         }
         else
         {
+            // Reazione Scontenta Casuale
+            SetRandomSprite(sadSprites);
             OnOrderWrong?.Invoke();
         }
 
@@ -250,6 +264,12 @@ public class CustomerController : MonoBehaviour
         if (orderUI) orderUI.ShowYesNo(false);
         BeginExit();
     }
+    private void SetRandomSprite(Sprite[] spriteArray)
+    {
+        if (faceSR == null || spriteArray == null || spriteArray.Length == 0) return;
 
+        int randomIndex = Random.Range(0, spriteArray.Length);
+        faceSR.sprite = spriteArray[randomIndex];
+    }
 
 }
