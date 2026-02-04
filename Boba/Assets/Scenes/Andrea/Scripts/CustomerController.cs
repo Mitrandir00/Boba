@@ -43,14 +43,29 @@ public class CustomerController : MonoBehaviour
     // evita di far partire più volte la coroutine mentre Update gira
     private bool settling = false;
 
+
+    [Header("Impostazioni Livello")]
+    public bool isStoryMode = false; // Se true, il cliente non scappa mai
+
     void Awake()
     {
         if (!order) order = GetComponentInChildren<CustomerOrder>(true);
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
     }
 
+    /*void Start()
+    {
+        state = State.Entering;
+        target = waitPoint ? waitPoint.position : transform.position;
+
+        if (orderUI) orderUI.Hide();
+    }*/
     void Start()
     {
+        // SINCRONIZZAZIONE AUTOMATICA:
+        // Invece di impostarlo a mano, il cliente legge se è in modalità storia
+        isStoryMode = GameSettings.IsStoryMode;
+
         state = State.Entering;
         target = waitPoint ? waitPoint.position : transform.position;
 
@@ -92,8 +107,10 @@ public class CustomerController : MonoBehaviour
         // logica di attesa
         if (state == State.Waiting)
         {
-            waitTimer += Time.deltaTime;
+            // SE è modalità storia, non incrementiamo il timer e non usciamo per tempo
+            if (isStoryMode) return;
 
+            waitTimer += Time.deltaTime;
             // ⏱️ timeout naturale
             if (waitTimer >= maxWaitSeconds)
             {
@@ -233,4 +250,6 @@ public class CustomerController : MonoBehaviour
         if (orderUI) orderUI.ShowYesNo(false);
         BeginExit();
     }
+
+
 }
