@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections;
 
 public class CustomerSpawner : MonoBehaviour
@@ -86,5 +86,120 @@ public class CustomerSpawner : MonoBehaviour
         Instantiate(customerPrefab, spawnPos, Quaternion.identity); 
         
         // ... (Il resto della logica di spawn e Waypoints)
+    }
+}
+*/
+using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+
+public class CustomerSpawner : MonoBehaviour
+{
+    [Header("Punti di Posizionamento")]
+    public Transform spawnPoint;
+    public Transform waitPoint;
+    public Transform exitPoint;
+
+    [Header("Impostazioni Modalità Infinita")]
+    public List<GameObject> randomCustomers; // Metti qui i tuoi prefab per la modalità infinita
+    public float infiniteSpawnDelay = 3f;
+
+    [Header("Impostazioni Generali")]
+    public float delayBetweenCustomers = 2f;
+
+    private List<GameObject> storySequence;
+    private int currentStoryIndex = 0;
+
+    void Start()
+    {
+        // Se siamo in modalità infinita, facciamo partire il loop infinito
+        if (!GameSettings.IsStoryMode)
+        {
+            StartCoroutine(InfiniteSpawnRoutine());
+        }
+    }
+
+    // --- LOGICA MODALITÀ STORIA ---
+    public void StartStorySequence(List<GameObject> sequence)
+    {
+        storySequence = sequence;
+        currentStoryIndex = 0;
+        StartCoroutine(SpawnSequenceRoutine());
+    }
+
+    private IEnumerator SpawnSequenceRoutine()
+    {
+        while (currentStoryIndex < storySequence.Count)
+        {
+            SpawnCustomer(storySequence[currentStoryIndex]);
+            
+            // Aspetta finché non ci sono più oggetti con il tag "Customer" nella scena
+            yield return new WaitForSeconds(1f); // Piccolo delay per sicurezza
+            yield return new WaitUntil(() => GameObject.FindGameObjectWithTag("Customer") == null);
+            
+            yield return new WaitForSeconds(delayBetweenCustomers);
+            currentStoryIndex++;
+        }
+        Debug.Log("Livello Storia Terminato!");
+    }
+
+    // --- LOGICA MODALITÀ INFINITA ---
+    /*private IEnumerator InfiniteSpawnRoutine()
+    {
+        while (true) // Ciclo infinito
+        {
+            if (GameObject.FindGameObjectWithTag("Customer") == null)
+            {
+                GameObject randomPrefab = randomCustomers[Random.Range(0, randomCustomers.Count)];
+                SpawnCustomer(randomPrefab);
+            }
+            yield return new WaitForSeconds(infiniteSpawnDelay);
+        }
+    }*/
+
+    private void SpawnCustomer(GameObject prefab)
+    {
+        GameObject newCustomer = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        CustomerController controller = newCustomer.GetComponent<CustomerController>();
+        
+        if (controller != null)
+        {
+            controller.waitPoint = waitPoint;
+            controller.exitPoint = exitPoint;
+        }
+
+        // IMPORTANTE: il prefab DEVE avere il tag "Customer"
+        newCustomer.tag = "Customer"; 
+    }
+    // Aggiungi questo metodo pubblico nello script CustomerSpawner
+    public void StartInfiniteMode()
+    {
+        StopAllCoroutines(); // Sicurezza per non sovrapporre i cicli
+        StartCoroutine(InfiniteSpawnRoutine());
+    }
+
+    private IEnumerator InfiniteSpawnRoutine()
+    {
+        // Ciclo infinito: finché giochi, lui prova a spawnare
+        while (true) 
+        {
+            // Controlla se c'è già un cliente in scena (usando il Tag "Customer")
+            if (GameObject.FindGameObjectWithTag("Customer") == null)
+            {
+                if (randomCustomers.Count > 0)
+                {
+                    // Prende un cliente a caso dalla lista che hai nell'Inspector
+                    GameObject randomPrefab = randomCustomers[Random.Range(0, randomCustomers.Count)];
+                    SpawnCustomer(randomPrefab);
+                }
+                else
+                {
+                    Debug.LogWarning("La lista Random Customers dello spawner è vuota!");
+                }
+            }
+            
+            // Aspetta qualche secondo prima di controllare di nuovo
+            yield return new WaitForSeconds(infiniteSpawnDelay);
+        }
     }
 }

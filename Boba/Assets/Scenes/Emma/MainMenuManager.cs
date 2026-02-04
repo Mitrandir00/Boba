@@ -4,30 +4,39 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("Panels")]
+    [Header("Pannelli UI")]
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
-    
+    public GameObject storyMenuPanel;
+
     void Start()
     {
-        // Mostra menu principale all'avvio
+        // Assicura che all'avvio sia visibile solo il menu principale
         ShowMainMenu();
     }
-    
+
     void Update()
     {
-        // Gestione tasto Back Android / ESC
+        // Gestione tasto Back Android / ESC per chiudere i menu o il gioco
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             HandleBackButton();
         }
     }
-    
-    // === NAVIGAZIONE ===
-    
-    void HandleBackButton()
+
+    // --- LOGICA DI NAVIGAZIONE ---
+
+    private void ShowMainMenu()
     {
-        if (optionsPanel.activeSelf)
+        mainMenuPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+        storyMenuPanel.SetActive(false);
+    }
+
+    private void HandleBackButton()
+    {
+        // Se siamo in un sottomenu, torna al principale. Altrimenti, esce.
+        if (optionsPanel.activeSelf || storyMenuPanel.activeSelf)
         {
             BackToMainMenu();
         }
@@ -36,49 +45,57 @@ public class MenuManager : MonoBehaviour
             QuitGame();
         }
     }
-    
-    void ShowMainMenu()
-    {
-        mainMenuPanel.SetActive(true);
-        optionsPanel.SetActive(false);
-    }
-    
-    // === PULSANTI MENU PRINCIPALE ===
-    
-    // === PULSANTI MENU PRINCIPALE ===
 
-    public void PlayGame() 
+    // --- PULSANTI MENU PRINCIPALE ---
+
+    public void OpenStoryMenu()
     {
-        SceneManager.LoadScene("Main"); 
+        mainMenuPanel.SetActive(false);
+        storyMenuPanel.SetActive(true);
     }
-    
+
     public void OpenOptions()
     {
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
         Debug.Log("Menu opzioni aperto");
     }
-    
-    public void QuitGame()
-    {
-        //non ho fatto solo l application quit perché aggiungendo queste righe posso controllare
-        //che funzioni correttamente il bottone fermando la simulazione nell editor di unity (funziona)
-        #if UNITY_EDITOR
-        // Nell'editor: ferma il Play Mode
-        UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        // Nella build: chiude l'applicazione
-        Application.Quit();
-        #endif
-    }
-    
-    // === PULSANTI MENU OPZIONI ===
-    
+
     public void BackToMainMenu()
     {
         ShowMainMenu();
         Debug.Log("Tornato al menu principale");
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Chiusura gioco...");
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+
+    // --- AVVIO MODALITÀ DI GIOCO ---
+
+    public void StartInfiniteMode()
+    {
+        // Configura le impostazioni globali per la modalità infinita
+        GameSettings.IsStoryMode = false;
+        GameSettings.SelectedLevel = 0;
+        
+        Debug.Log("Avvio Modalità Infinita");
+        SceneManager.LoadScene("Main");
+    }
+
+    public void StartStoryLevel(int levelIndex)
+    {
+        // Configura le impostazioni globali per il livello specifico della storia
+        GameSettings.IsStoryMode = true;
+        GameSettings.SelectedLevel = levelIndex;
+        
+        Debug.Log("Avvio Livello Storia: " + levelIndex);
+        SceneManager.LoadScene("Main");
+    }
 }
-    
-    

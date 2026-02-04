@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 1754469077241274327}
   m_Layer: 0
   m_Name: 6-Customer
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
   exitPoint: {fileID: 0}
   moveSpeed: 2.5
   maxWaitSeconds: 12
+  rewardAmount: 20
   enableSettleHop: 1
   hopHeight: 0.09
   hopUpTime: 0.09
@@ -262,6 +263,7 @@ MonoBehaviour:
   OnOrderWrong:
     m_PersistentCalls:
       m_Calls: []
+  isStoryMode: 0
 --- !u!114 &6635846771172078313
 MonoBehaviour:
   m_ObjectHideFlags: 0
