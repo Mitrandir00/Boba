@@ -6,10 +6,10 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     [Header("Configurazione Livelli")]
-    public List<LevelData> levels; // Trascina qui i tuoi ScriptableObjects dei livelli
-    
-    [Header("Spawner Reference")]
-    public CustomerSpawner spawner; // Il componente che crea i clienti
+    public List<LevelData> levels;
+
+    [Header("Spawner References (metti qui SINISTRA e DESTRA)")]
+    public List<CustomerSpawner> spawners;
 
     private LevelData currentLevelData;
 
@@ -20,6 +20,12 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        if (spawners == null || spawners.Count == 0)
+        {
+            Debug.LogError("[LevelManager] Nessuno spawner assegnato!");
+            return;
+        }
+
         if (GameSettings.IsStoryMode)
         {
             LoadStoryLevel(GameSettings.SelectedLevel);
@@ -27,28 +33,36 @@ public class LevelManager : MonoBehaviour
         else
         {
             Debug.Log("Modalità Infinita Attivata");
-            // Qui istruisci lo spawner a far uscire clienti a caso all'infinito
-            // Dice allo spawner di iniziare a far apparire clienti casuali
-            spawner.StartInfiniteMode();
+
+            foreach (var spawner in spawners)
+            {
+                if (spawner != null)
+                    spawner.StartInfiniteMode();
+            }
         }
     }
 
     void LoadStoryLevel(int index)
     {
-        // Gli indici partono da 1 per la storia (0 è infinita nei tuoi GameSettings)
-        int listIndex = index - 1; 
+        int listIndex = index - 1;
 
-        if (listIndex >= 0 && listIndex < levels.Count)
+        if (listIndex < 0 || listIndex >= levels.Count)
         {
-            currentLevelData = levels[listIndex];
-            Debug.Log("Caricato Livello Storia: " + currentLevelData.name);
-            
-            // Passa la sequenza dei clienti allo spawner
-            spawner.StartStorySequence(currentLevelData.customerSequence);
+            Debug.LogError($"[LevelManager] Livello storia non valido: {index}");
+            return;
+        }
+
+        currentLevelData = levels[listIndex];
+        Debug.Log("Caricato Livello Storia: " + currentLevelData.name);
+
+        foreach (var spawner in spawners)
+        {
+            if (spawner != null)
+                spawner.StartStorySequence(currentLevelData.customerSequence, index);
         }
     }
 
-    public bool IsCurrentLevelStory() 
+    public bool IsCurrentLevelStory()
     {
         return GameSettings.IsStoryMode;
     }
