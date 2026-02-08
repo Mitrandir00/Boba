@@ -90,8 +90,8 @@ public class CustomerSpawner : MonoBehaviour
 }
 */
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomerSpawner : MonoBehaviour
 {
@@ -100,106 +100,241 @@ public class CustomerSpawner : MonoBehaviour
     public Transform waitPoint;
     public Transform exitPoint;
 
-    [Header("Impostazioni Modalità Infinita")]
-    public List<GameObject> randomCustomers; // Metti qui i tuoi prefab per la modalità infinita
-    public float infiniteSpawnDelay = 3f;
+    [Header("Prefab Modalità Infinita")]
+    public List<GameObject> randomCustomers;
 
-    [Header("Impostazioni Generali")]
-    public float delayBetweenCustomers = 2f;
+    [Header("Sfalsamento tra spawner (secondi)")]
+    public float startOffset = 0f; // es. sinistra 0, destra 0.8
+
+    // =========================
+    // STORIA: ritmo spawn (tempo tra un cliente e il successivo per QUESTO spawner)
+    // =========================
+    [Header("STORIA - Delay spawn per livello (secondi)")]
+    public float storyDelayLevel1 = 3f;
+    public float storyDelayLevel2 = 2.25f;
+    public float storyDelayLevel3 = 1.75f;
+
+    // =========================
+    // STORIA: slider di tuning per livello (0..1)
+    // - SpeedT: 0 -> MIN_MOVE_SPEED, 1 -> MAX_MOVE_SPEED (definiti nel CustomerController)
+    // - WaitT : 0 -> MAX_WAIT_SECONDS, 1 -> MIN_WAIT_SECONDS (definiti nel CustomerController)
+    // =========================
+    [Header("STORIA - Slider per livello (0..1)")]
+    [Range(0f, 1f)] public float storySpeedTLevel1 = 0f;
+    [Range(0f, 1f)] public float storySpeedTLevel2 = 0.5f;
+    [Range(0f, 1f)] public float storySpeedTLevel3 = 1f;
+
+    [Range(0f, 1f)] public float storyWaitTLevel1 = 0f;
+    [Range(0f, 1f)] public float storyWaitTLevel2 = 0.5f;
+    [Range(0f, 1f)] public float storyWaitTLevel3 = 1f;
+
+    // =========================
+    // INFINITO: scaling difficoltà
+    // - Delay tra "tentativi" di spawn scende nel tempo
+    // - t (0..1) cresce nel tempo e viene usato per speed/wait via ApplyTuning(t,t)
+    // =========================
+    [Header("INFINITO - Scaling difficoltà (spawn)")]
+    public float infiniteStartDelay = 4f;
+    public float infiniteMinDelay = 0.4f;
+    public float secondsToReachMinDelay = 60f;
+
+    [Header("INFINITO - Scaling tuning cliente (0..1)")]
+    [Tooltip("Quanto rapidamente cresce la VELOCITÀ del cliente in infinito (moltiplica t). Es: 1 = normale, 1.2 = più aggressivo.")]
+    public float infiniteSpeedMultiplier = 1f;
+
+    [Tooltip("Quanto rapidamente cresce la IMPAZIENZA del cliente in infinito (moltiplica t). Es: 1 = normale, 0.8 = meno aggressivo.")]
+    public float infiniteWaitMultiplier = 1f;
+
+    // =========================
+    // GENERALE
+    // =========================
+    [Header("Generale")]
+    public float safetyDelayAfterSpawn = 0.1f;
 
     private List<GameObject> storySequence;
     private int currentStoryIndex = 0;
+    private GameObject currentCustomer;
+    private Coroutine runningRoutine;
 
-    void Start()
+    // =========================
+    // API chiamate dal LevelManager
+    // =========================
+    public void StartStorySequence(List<GameObject> sequence, int storyLevelIndex)
     {
-        // Se siamo in modalità infinita, facciamo partire il loop infinito
-        if (!GameSettings.IsStoryMode)
-        {
-            StartCoroutine(InfiniteSpawnRoutine());
-        }
-    }
+        StopRunning();
 
-    // --- LOGICA MODALITÀ STORIA ---
-    public void StartStorySequence(List<GameObject> sequence)
-    {
         storySequence = sequence;
         currentStoryIndex = 0;
-        StartCoroutine(SpawnSequenceRoutine());
+
+        runningRoutine = StartCoroutine(StoryRoutine(storyLevelIndex));
     }
 
-    private IEnumerator SpawnSequenceRoutine()
+    public void StartInfiniteMode()
     {
-        while (currentStoryIndex < storySequence.Count)
+        StopRunning();
+        runningRoutine = StartCoroutine(InfiniteRoutine());
+    }
+
+    // =========================
+    // ROUTINE STORIA
+    // =========================
+    private IEnumerator StoryRoutine(int storyLevelIndex)
+    {
+        if (startOffset > 0f)
+            yield return new WaitForSeconds(startOffset);
+
+        float delayBetweenCustomers = GetStoryDelay(storyLevelIndex);
+        float speedT = GetStorySpeedT(storyLevelIndex);
+        float waitT = GetStoryWaitT(storyLevelIndex);
+
+        while (storySequence != null && currentStoryIndex < storySequence.Count)
         {
-            SpawnCustomer(storySequence[currentStoryIndex]);
-            
-            // Aspetta finché non ci sono più oggetti con il tag "Customer" nella scena
-            yield return new WaitForSeconds(1f); // Piccolo delay per sicurezza
-            yield return new WaitUntil(() => GameObject.FindGameObjectWithTag("Customer") == null);
-            
-            yield return new WaitForSeconds(delayBetweenCustomers);
+            // 1 cliente per spawner alla volta
+            yield return new WaitUntil(() => currentCustomer == null);
+
+            SpawnCustomer(storySequence[currentStoryIndex], speedT, waitT);
+
+            // micro-sicurezza
+            if (safetyDelayAfterSpawn > 0f)
+                yield return new WaitForSeconds(safetyDelayAfterSpawn);
+
+            // aspetta che il MIO cliente se ne vada
+            yield return new WaitUntil(() => currentCustomer == null);
+
+            // delay tra clienti in story
+            if (delayBetweenCustomers > 0f)
+                yield return new WaitForSeconds(delayBetweenCustomers);
+
             currentStoryIndex++;
         }
-        Debug.Log("Livello Storia Terminato!");
+
+        Debug.Log($"[{name}] Story terminata.");
+        runningRoutine = null;
     }
 
-    // --- LOGICA MODALITÀ INFINITA ---
-    /*private IEnumerator InfiniteSpawnRoutine()
+    private float GetStoryDelay(int lvl)
     {
-        while (true) // Ciclo infinito
+        switch (lvl)
         {
-            if (GameObject.FindGameObjectWithTag("Customer") == null)
-            {
-                GameObject randomPrefab = randomCustomers[Random.Range(0, randomCustomers.Count)];
-                SpawnCustomer(randomPrefab);
-            }
-            yield return new WaitForSeconds(infiniteSpawnDelay);
+            case 1: return storyDelayLevel1;
+            case 2: return storyDelayLevel2;
+            case 3: return storyDelayLevel3;
+            default: return storyDelayLevel1;
         }
-    }*/
+    }
 
-    private void SpawnCustomer(GameObject prefab)
+    private float GetStorySpeedT(int lvl)
     {
-        GameObject newCustomer = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-        CustomerController controller = newCustomer.GetComponent<CustomerController>();
-        
+        switch (lvl)
+        {
+            case 1: return storySpeedTLevel1;
+            case 2: return storySpeedTLevel2;
+            case 3: return storySpeedTLevel3;
+            default: return storySpeedTLevel1;
+        }
+    }
+
+    private float GetStoryWaitT(int lvl)
+    {
+        switch (lvl)
+        {
+            case 1: return storyWaitTLevel1;
+            case 2: return storyWaitTLevel2;
+            case 3: return storyWaitTLevel3;
+            default: return storyWaitTLevel1;
+        }
+    }
+
+    // =========================
+    // ROUTINE INFINITO
+    // =========================
+    private IEnumerator InfiniteRoutine()
+    {
+        if (startOffset > 0f)
+            yield return new WaitForSeconds(startOffset);
+
+        float startTime = Time.time;
+
+        while (true)
+        {
+            float elapsed = Time.time - startTime;
+            float t = (secondsToReachMinDelay <= 0f) ? 1f : Mathf.Clamp01(elapsed / secondsToReachMinDelay);
+
+            // Delay spawn scende col tempo
+            float currentDelay = Mathf.Lerp(infiniteStartDelay, infiniteMinDelay, t);
+
+            if (currentCustomer == null)
+            {
+                if (randomCustomers != null && randomCustomers.Count > 0)
+                {
+                    GameObject prefab = randomCustomers[Random.Range(0, randomCustomers.Count)];
+
+                    float speedT = Mathf.Clamp01(t * infiniteSpeedMultiplier);
+                    float waitT = Mathf.Clamp01(t * infiniteWaitMultiplier);
+
+                    SpawnCustomer(prefab, speedT, waitT);
+                }
+                else
+                {
+                    Debug.LogWarning($"[{name}] randomCustomers è vuota!");
+                }
+            }
+
+            if (currentDelay > 0f)
+                yield return new WaitForSeconds(currentDelay);
+            else
+                yield return null;
+        }
+    }
+
+    // =========================
+    // SPAWN
+    // =========================
+    private void SpawnCustomer(GameObject prefab, float speedT, float waitT)
+    {
+        if (prefab == null)
+        {
+            Debug.LogWarning($"[{name}] Prefab nullo, impossibile spawnare.");
+            return;
+        }
+        if (spawnPoint == null)
+        {
+            Debug.LogError($"[{name}] spawnPoint non assegnato!");
+            return;
+        }
+
+        currentCustomer = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+
+        var controller = currentCustomer.GetComponent<CustomerController>();
         if (controller != null)
         {
             controller.waitPoint = waitPoint;
             controller.exitPoint = exitPoint;
+
+            // ✅ range in codice + slider in inspector
+            controller.ApplyTuning(speedT, waitT);
         }
-
-        // IMPORTANTE: il prefab DEVE avere il tag "Customer"
-        newCustomer.tag = "Customer"; 
-    }
-    // Aggiungi questo metodo pubblico nello script CustomerSpawner
-    public void StartInfiniteMode()
-    {
-        StopAllCoroutines(); // Sicurezza per non sovrapporre i cicli
-        StartCoroutine(InfiniteSpawnRoutine());
-    }
-
-    private IEnumerator InfiniteSpawnRoutine()
-    {
-        // Ciclo infinito: finché giochi, lui prova a spawnare
-        while (true) 
+        else
         {
-            // Controlla se c'è già un cliente in scena (usando il Tag "Customer")
-            if (GameObject.FindGameObjectWithTag("Customer") == null)
-            {
-                if (randomCustomers.Count > 0)
-                {
-                    // Prende un cliente a caso dalla lista che hai nell'Inspector
-                    GameObject randomPrefab = randomCustomers[Random.Range(0, randomCustomers.Count)];
-                    SpawnCustomer(randomPrefab);
-                }
-                else
-                {
-                    Debug.LogWarning("La lista Random Customers dello spawner è vuota!");
-                }
-            }
-            
-            // Aspetta qualche secondo prima di controllare di nuovo
-            yield return new WaitForSeconds(infiniteSpawnDelay);
+            Debug.LogWarning($"[{name}] Il prefab {prefab.name} non ha CustomerController!");
         }
+    }
+
+    // =========================
+    // STOP / RESET
+    // =========================
+    private void StopRunning()
+    {
+        if (runningRoutine != null)
+        {
+            StopCoroutine(runningRoutine);
+            runningRoutine = null;
+        }
+
+        StopAllCoroutines();
+
+        // Nota: non distruggiamo il cliente già in scena.
+        // Semplicemente lo spawner considera "occupato" finché non sparisce.
+        // Se vuoi resettare forzato anche il cliente, dimmelo e lo facciamo.
     }
 }

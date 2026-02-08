@@ -437,17 +437,26 @@ MonoBehaviour:
   exitPoint: {fileID: 1117257780}
   randomCustomers:
   - {fileID: 5885106867128739669, guid: cbe4c0868a3c5014ea1176662666c644, type: 3}
-  - {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
-  - {fileID: 5885106867128739669, guid: 2d969982c69cbca40b14e450730a06ba, type: 3}
-  - {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
-  - {fileID: 5885106867128739669, guid: 78db9d53ccaecb3488df86413f9c1e00, type: 3}
-  - {fileID: 5885106867128739669, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
   - {fileID: 5885106867128739669, guid: c48b2d9a5108d354d99a4721c12f41b8, type: 3}
+  - {fileID: 5885106867128739669, guid: 2d969982c69cbca40b14e450730a06ba, type: 3}
   - {fileID: 5885106867128739669, guid: 547d60bf4c40ab7448819e368080a16e, type: 3}
-  - {fileID: 5885106867128739669, guid: 8fba72c7e37886440b67f1196e21b7bc, type: 3}
+  - {fileID: 5885106867128739669, guid: 78db9d53ccaecb3488df86413f9c1e00, type: 3}
   - {fileID: 5885106867128739669, guid: 1cf4029eac7368a488c1f90e5ef54f48, type: 3}
-  infiniteSpawnDelay: 3
-  delayBetweenCustomers: 2
+  - {fileID: 5885106867128739669, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+  - {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+  - {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+  - {fileID: 5885106867128739669, guid: 8fba72c7e37886440b67f1196e21b7bc, type: 3}
+  startOffset: 0
+  storyDelayLevel1: 3
+  storyDelayLevel2: 2.25
+  storyDelayLevel3: 1.75
+  storyTLevel1: 0
+  storyTLevel2: 0.5
+  storyTLevel3: 1
+  infiniteStartDelay: 4
+  infiniteMinDelay: 0.4
+  secondsToReachMinDelay: 60
+  safetyDelayAfterSpawn: 0.1
 --- !u!4 &47428263
 Transform:
   m_ObjectHideFlags: 0
@@ -506,8 +515,17 @@ MonoBehaviour:
   - {fileID: 5885106867128739669, guid: 547d60bf4c40ab7448819e368080a16e, type: 3}
   - {fileID: 5885106867128739669, guid: 8fba72c7e37886440b67f1196e21b7bc, type: 3}
   - {fileID: 5885106867128739669, guid: 1cf4029eac7368a488c1f90e5ef54f48, type: 3}
-  infiniteSpawnDelay: 3
-  delayBetweenCustomers: 2
+  startOffset: 1.5
+  storyDelayLevel1: 3
+  storyDelayLevel2: 2.25
+  storyDelayLevel3: 1.75
+  storyTLevel1: 0
+  storyTLevel2: 0.5
+  storyTLevel3: 1
+  infiniteStartDelay: 4
+  infiniteMinDelay: 0.4
+  secondsToReachMinDelay: 60
+  safetyDelayAfterSpawn: 0.1
 --- !u!4 &85154221
 Transform:
   m_ObjectHideFlags: 0
@@ -7996,7 +8014,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2579a6cb047653b46b0ba58cadc81e97, type: 2}
   - {fileID: 11400000, guid: f1d45ebdd2ad7d743b8323334755f89d, type: 2}
   - {fileID: 11400000, guid: 23ff0517c9802f34090859fbc1d88174, type: 2}
-  spawner: {fileID: 47428262}
+  spawners:
+  - {fileID: 47428262}
+  - {fileID: 85154220}
 --- !u!4 &2101573071
 Transform:
   m_ObjectHideFlags: 0
