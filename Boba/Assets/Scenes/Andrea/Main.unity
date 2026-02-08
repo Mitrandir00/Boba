@@ -450,12 +450,17 @@ MonoBehaviour:
   storyDelayLevel1: 3
   storyDelayLevel2: 2.25
   storyDelayLevel3: 1.75
-  storyTLevel1: 0
-  storyTLevel2: 0.5
-  storyTLevel3: 1
+  storySpeedTLevel1: 0
+  storySpeedTLevel2: 0.5
+  storySpeedTLevel3: 1
+  storyWaitTLevel1: 0
+  storyWaitTLevel2: 0.5
+  storyWaitTLevel3: 1
   infiniteStartDelay: 4
   infiniteMinDelay: 0.4
   secondsToReachMinDelay: 60
+  infiniteSpeedMultiplier: 1
+  infiniteWaitMultiplier: 1
   safetyDelayAfterSpawn: 0.1
 --- !u!4 &47428263
 Transform:
@@ -519,12 +524,17 @@ MonoBehaviour:
   storyDelayLevel1: 3
   storyDelayLevel2: 2.25
   storyDelayLevel3: 1.75
-  storyTLevel1: 0
-  storyTLevel2: 0.5
-  storyTLevel3: 1
+  storySpeedTLevel1: 0
+  storySpeedTLevel2: 0.5
+  storySpeedTLevel3: 1
+  storyWaitTLevel1: 0
+  storyWaitTLevel2: 0.5
+  storyWaitTLevel3: 1
   infiniteStartDelay: 4
   infiniteMinDelay: 0.4
   secondsToReachMinDelay: 60
+  infiniteSpeedMultiplier: 1
+  infiniteWaitMultiplier: 1
   safetyDelayAfterSpawn: 0.1
 --- !u!4 &85154221
 Transform:
