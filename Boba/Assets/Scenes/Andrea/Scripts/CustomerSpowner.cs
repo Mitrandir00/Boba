@@ -96,83 +96,112 @@ using System.Collections.Generic;
 public class CustomerSpawner : MonoBehaviour
 {
     [Header("Punti di Posizionamento")]
-    public Transform spawnPoint;
-    public Transform waitPoint;
-    public Transform exitPoint;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform waitPoint;
+    [SerializeField] private Transform exitPoint;
 
     [Header("Prefab Modalità Infinita")]
-    public List<GameObject> randomCustomers;
+    [SerializeField] private List<GameObject> randomCustomers = new List<GameObject>();
 
     [Header("Sfalsamento tra spawner (secondi)")]
-    public float startOffset = 0f; // es. sinistra 0, destra 0.8
+    [SerializeField] private float startOffset = 0f; // es. sinistra 0, destra 0.8
 
     // =========================
-    // STORIA: ritmo spawn (tempo tra un cliente e il successivo per QUESTO spawner)
+    // STORIA: delay tra clienti per livello (per QUESTO spawner)
     // =========================
     [Header("STORIA - Delay spawn per livello (secondi)")]
-    public float storyDelayLevel1 = 3f;
-    public float storyDelayLevel2 = 2.25f;
-    public float storyDelayLevel3 = 1.75f;
+    [SerializeField] private float storyDelayLevel1 = 3f;
+    [SerializeField] private float storyDelayLevel2 = 2.25f;
+    [SerializeField] private float storyDelayLevel3 = 1.75f;
 
     // =========================
-    // STORIA: slider di tuning per livello (0..1)
-    // - SpeedT: 0 -> MIN_MOVE_SPEED, 1 -> MAX_MOVE_SPEED (definiti nel CustomerController)
-    // - WaitT : 0 -> MAX_WAIT_SECONDS, 1 -> MIN_WAIT_SECONDS (definiti nel CustomerController)
+    // STORIA: slider (0..1)
     // =========================
     [Header("STORIA - Slider per livello (0..1)")]
-    [Range(0f, 1f)] public float storySpeedTLevel1 = 0f;
-    [Range(0f, 1f)] public float storySpeedTLevel2 = 0.5f;
-    [Range(0f, 1f)] public float storySpeedTLevel3 = 1f;
+    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel1 = 0f;
+    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel2 = 0.5f;
+    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel3 = 1f;
 
-    [Range(0f, 1f)] public float storyWaitTLevel1 = 0f;
-    [Range(0f, 1f)] public float storyWaitTLevel2 = 0.5f;
-    [Range(0f, 1f)] public float storyWaitTLevel3 = 1f;
+    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel1 = 0f;
+    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel2 = 0.5f;
+    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel3 = 1f;
 
     // =========================
-    // INFINITO: scaling difficoltà
-    // - Delay tra "tentativi" di spawn scende nel tempo
-    // - t (0..1) cresce nel tempo e viene usato per speed/wait via ApplyTuning(t,t)
+    // INFINITO: scaling
     // =========================
     [Header("INFINITO - Scaling difficoltà (spawn)")]
-    public float infiniteStartDelay = 4f;
-    public float infiniteMinDelay = 0.4f;
-    public float secondsToReachMinDelay = 60f;
+    [SerializeField] private float infiniteStartDelay = 4f;
+    [SerializeField] private float infiniteMinDelay = 0.4f;
+    [SerializeField] private float secondsToReachMinDelay = 60f;
 
     [Header("INFINITO - Scaling tuning cliente (0..1)")]
-    [Tooltip("Quanto rapidamente cresce la VELOCITÀ del cliente in infinito (moltiplica t). Es: 1 = normale, 1.2 = più aggressivo.")]
-    public float infiniteSpeedMultiplier = 1f;
+    [SerializeField] private float infiniteSpeedMultiplier = 1f;
+    [SerializeField] private float infiniteWaitMultiplier = 1f;
 
-    [Tooltip("Quanto rapidamente cresce la IMPAZIENZA del cliente in infinito (moltiplica t). Es: 1 = normale, 0.8 = meno aggressivo.")]
-    public float infiniteWaitMultiplier = 1f;
-
-    // =========================
-    // GENERALE
-    // =========================
     [Header("Generale")]
-    public float safetyDelayAfterSpawn = 0.1f;
+    [SerializeField] private float safetyDelayAfterSpawn = 0.1f;
 
+    // =========================
+    // Stato interno
+    // =========================
     private List<GameObject> storySequence;
-    private int currentStoryIndex = 0;
+    private int storyIndex;
+
     private GameObject currentCustomer;
-    private Coroutine runningRoutine;
+    private Coroutine routine;
+
+    // Se disabilitiamo solo la logica ma lasciamo l'oggetto attivo (comodo se non vuoi SetActive false)
+    private bool logicEnabled = true;
 
     // =========================
-    // API chiamate dal LevelManager
+    // API
     // =========================
+
+    /// <summary>Abilita/Disabilita la logica di spawn (non distrugge il cliente in scena).</summary>
+    public void SetLogicEnabled(bool enabled)
+    {
+        logicEnabled = enabled;
+        if (!logicEnabled)
+            StopSpawning();
+    }
+
+    /// <summary>Ferma la routine attuale (storia o infinito). Non distrugge il cliente già presente.</summary>
+    public void StopSpawning()
+    {
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+            routine = null;
+        }
+    }
+
     public void StartStorySequence(List<GameObject> sequence, int storyLevelIndex)
     {
-        StopRunning();
+        StopSpawning();
 
         storySequence = sequence;
-        currentStoryIndex = 0;
+        storyIndex = 0;
 
-        runningRoutine = StartCoroutine(StoryRoutine(storyLevelIndex));
+        if (!logicEnabled || !gameObject.activeInHierarchy)
+            return;
+
+        routine = StartCoroutine(StoryRoutine(storyLevelIndex));
     }
 
     public void StartInfiniteMode()
     {
-        StopRunning();
-        runningRoutine = StartCoroutine(InfiniteRoutine());
+        StopSpawning();
+
+        if (!logicEnabled || !gameObject.activeInHierarchy)
+            return;
+
+        routine = StartCoroutine(InfiniteRoutine());
+    }
+
+    private void OnDisable()
+    {
+        // se lo spegni in Inspector o da codice, non lascia coroutine appese
+        StopSpawning();
     }
 
     // =========================
@@ -187,29 +216,28 @@ public class CustomerSpawner : MonoBehaviour
         float speedT = GetStorySpeedT(storyLevelIndex);
         float waitT = GetStoryWaitT(storyLevelIndex);
 
-        while (storySequence != null && currentStoryIndex < storySequence.Count)
+        while (logicEnabled && storySequence != null && storyIndex < storySequence.Count)
         {
             // 1 cliente per spawner alla volta
-            yield return new WaitUntil(() => currentCustomer == null);
+            yield return new WaitUntil(() => !logicEnabled || currentCustomer == null);
+            if (!logicEnabled) yield break;
 
-            SpawnCustomer(storySequence[currentStoryIndex], speedT, waitT);
+            SpawnCustomer(storySequence[storyIndex], speedT, waitT);
 
-            // micro-sicurezza
             if (safetyDelayAfterSpawn > 0f)
                 yield return new WaitForSeconds(safetyDelayAfterSpawn);
 
-            // aspetta che il MIO cliente se ne vada
-            yield return new WaitUntil(() => currentCustomer == null);
+            // aspetta che il cliente del MIO spawner se ne vada
+            yield return new WaitUntil(() => !logicEnabled || currentCustomer == null);
+            if (!logicEnabled) yield break;
 
-            // delay tra clienti in story
             if (delayBetweenCustomers > 0f)
                 yield return new WaitForSeconds(delayBetweenCustomers);
 
-            currentStoryIndex++;
+            storyIndex++;
         }
 
-        Debug.Log($"[{name}] Story terminata.");
-        runningRoutine = null;
+        routine = null;
     }
 
     private float GetStoryDelay(int lvl)
@@ -255,7 +283,7 @@ public class CustomerSpawner : MonoBehaviour
 
         float startTime = Time.time;
 
-        while (true)
+        while (logicEnabled)
         {
             float elapsed = Time.time - startTime;
             float t = (secondsToReachMinDelay <= 0f) ? 1f : Mathf.Clamp01(elapsed / secondsToReachMinDelay);
@@ -280,11 +308,15 @@ public class CustomerSpawner : MonoBehaviour
                 }
             }
 
+            if (!logicEnabled) yield break;
+
             if (currentDelay > 0f)
                 yield return new WaitForSeconds(currentDelay);
             else
                 yield return null;
         }
+
+        routine = null;
     }
 
     // =========================
@@ -292,6 +324,8 @@ public class CustomerSpawner : MonoBehaviour
     // =========================
     private void SpawnCustomer(GameObject prefab, float speedT, float waitT)
     {
+        if (!logicEnabled) return;
+
         if (prefab == null)
         {
             Debug.LogWarning($"[{name}] Prefab nullo, impossibile spawnare.");
@@ -311,30 +345,12 @@ public class CustomerSpawner : MonoBehaviour
             controller.waitPoint = waitPoint;
             controller.exitPoint = exitPoint;
 
-            // ✅ range in codice + slider in inspector
+            // tuning (range definiti nel CustomerController)
             controller.ApplyTuning(speedT, waitT);
         }
         else
         {
             Debug.LogWarning($"[{name}] Il prefab {prefab.name} non ha CustomerController!");
         }
-    }
-
-    // =========================
-    // STOP / RESET
-    // =========================
-    private void StopRunning()
-    {
-        if (runningRoutine != null)
-        {
-            StopCoroutine(runningRoutine);
-            runningRoutine = null;
-        }
-
-        StopAllCoroutines();
-
-        // Nota: non distruggiamo il cliente già in scena.
-        // Semplicemente lo spawner considera "occupato" finché non sparisce.
-        // Se vuoi resettare forzato anche il cliente, dimmelo e lo facciamo.
     }
 }
