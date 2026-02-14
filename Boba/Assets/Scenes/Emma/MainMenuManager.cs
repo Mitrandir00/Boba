@@ -7,9 +7,9 @@ public class MenuManager : MonoBehaviour
     [Header("Pannelli UI")]
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
-    
-    // Questi sono quelli che avevi aggiunto tu e che vogliamo tenere
     public GameObject storyMenuPanel;
+
+    [Header("Bottoni")]
     public GameObject loginButton;
 
     void Start()
@@ -17,27 +17,24 @@ public class MenuManager : MonoBehaviour
         // Assicura che all'avvio sia visibile solo il menu principale
         ShowMainMenu();
 
-        // --- CODICE LOGIN CHE ABBIAMO FATTO OGGI ---
-        // Controlliamo se l'utente è già loggato
+        // --- CONTROLLO LOGIN ---
         if (PlayerPrefs.HasKey("CurrentUser"))
         {
-            // UTENTE GIÀ DENTRO -> Nascondiamo il login
-            if(loginButton != null) 
-                loginButton.SetActive(false);
-            
-            Debug.Log("Utente rilevato. Nascondo il login.");
+            // Utente loggato: nascondi il tasto login
+            if (loginButton != null) loginButton.SetActive(false);
+            Debug.Log("Utente rilevato: " + PlayerPrefs.GetString("CurrentUser") + ". Nascondo il login.");
         }
         else
         {
-            // NESSUNO LOGGATO -> Mostriamo il login
-            if(loginButton != null) 
-                loginButton.SetActive(true);
+            // Utente non loggato: mostra il tasto login
+            if (loginButton != null) loginButton.SetActive(true);
+            Debug.Log("Nessun utente loggato. Mostro il login.");
         }
     }
 
     void Update()
     {
-        // Gestione tasto Back Android / ESC per chiudere i menu o il gioco
+        // Gestione tasto Back Android / ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             HandleBackButton();
@@ -46,16 +43,15 @@ public class MenuManager : MonoBehaviour
 
     // --- LOGICA DI NAVIGAZIONE ---
 
-    private void ShowMainMenu()
+    public void ShowMainMenu()
     {
-        mainMenuPanel.SetActive(true);
-        optionsPanel.SetActive(false);
-        storyMenuPanel.SetActive(false);
+        if(mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        if(optionsPanel != null) optionsPanel.SetActive(false);
+        if(storyMenuPanel != null) storyMenuPanel.SetActive(false);
     }
 
     private void HandleBackButton()
     {
-        // Se siamo in un sottomenu, torna al principale. Altrimenti, esce.
         if (optionsPanel.activeSelf || storyMenuPanel.activeSelf)
         {
             BackToMainMenu();
@@ -65,17 +61,8 @@ public class MenuManager : MonoBehaviour
             QuitGame();
         }
     }
-    
-    void ShowMainMenu()
-    {
-        mainMenuPanel.SetActive(true);
-        if(optionsPanel != null) optionsPanel.SetActive(false);
-        if(storyMenuPanel != null) storyMenuPanel.SetActive(false);
-    }
-    
-    // === PULSANTI MENU PRINCIPALE ===
 
-    // --- PULSANTI MENU PRINCIPALE ---
+    // --- PULSANTI ---
 
     public void OpenStoryMenu()
     {
@@ -87,26 +74,11 @@ public class MenuManager : MonoBehaviour
     {
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
-        Debug.Log("Menu opzioni aperto");
     }
-    
-    public void QuitGame()
-    {
-        #if UNITY_EDITOR
-        // Nell'editor: ferma il Play Mode
-        UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        // Nella build: chiude l'applicazione
-        Application.Quit();
-        #endif
-    }
-    
-    // === PULSANTI MENU OPZIONI ===
-    
+
     public void BackToMainMenu()
     {
         ShowMainMenu();
-        Debug.Log("Tornato al menu principale");
     }
 
     public void QuitGame()
@@ -119,11 +91,11 @@ public class MenuManager : MonoBehaviour
         #endif
     }
 
-    // --- AVVIO MODALITÀ DI GIOCO ---
+    // --- AVVIO GIOCO ---
 
     public void StartInfiniteMode()
     {
-        // Configura le impostazioni globali per la modalità infinita
+        // Assicurati che la classe GameSettings esista nel tuo progetto
         GameSettings.IsStoryMode = false;
         GameSettings.SelectedLevel = 0;
         
@@ -133,7 +105,6 @@ public class MenuManager : MonoBehaviour
 
     public void StartStoryLevel(int levelIndex)
     {
-        // Configura le impostazioni globali per il livello specifico della storia
         GameSettings.IsStoryMode = true;
         GameSettings.SelectedLevel = levelIndex;
         
