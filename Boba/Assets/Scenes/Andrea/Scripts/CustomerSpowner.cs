@@ -118,13 +118,13 @@ public class CustomerSpawner : MonoBehaviour
     // STORIA: slider (0..1)
     // =========================
     [Header("STORIA - Slider per livello (0..1)")]
-    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel1 = 0f;
-    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel2 = 0.5f;
-    [Range(0f, 1f)] [SerializeField] private float storySpeedTLevel3 = 1f;
+    [Range(0f, 1f)][SerializeField] private float storySpeedTLevel1 = 0f;
+    [Range(0f, 1f)][SerializeField] private float storySpeedTLevel2 = 0.5f;
+    [Range(0f, 1f)][SerializeField] private float storySpeedTLevel3 = 1f;
 
-    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel1 = 0f;
-    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel2 = 0.5f;
-    [Range(0f, 1f)] [SerializeField] private float storyWaitTLevel3 = 1f;
+    [Range(0f, 1f)][SerializeField] private float storyWaitTLevel1 = 0f;
+    [Range(0f, 1f)][SerializeField] private float storyWaitTLevel2 = 0.5f;
+    [Range(0f, 1f)][SerializeField] private float storyWaitTLevel3 = 1f;
 
     // =========================
     // INFINITO: scaling
@@ -352,5 +352,12 @@ public class CustomerSpawner : MonoBehaviour
         {
             Debug.LogWarning($"[{name}] Il prefab {prefab.name} non ha CustomerController!");
         }
+        var mafia = currentCustomer.GetComponent<MafiaCatController>();
+        if (mafia != null)
+        {
+            mafia.waitPoint = waitPoint;
+            mafia.exitPoint = exitPoint;
+        }
+
     }
 }

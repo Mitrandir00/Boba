@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7476357728069956674}
   - component: {fileID: -8453790503712787197}
+  - component: {fileID: -6417227194219056091}
   m_Layer: 0
   m_Name: Mafioso
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,7 +53,7 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -853432541
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -8370628717574239515, guid: 155574c1882c6ce4c9952e0e9e5333b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -87,3 +88,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6417227194219056091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684510952955081117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662d395c86649554d8cd51f60a136d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stealPercentLevel1: 0.1
+  stealPercentLevel2: 0.2
+  stealPercentLevel3: 0.3
+  waitPoint: {fileID: 0}
+  exitPoint: {fileID: 0}
+  moveSpeed: 3.5
+  waitSecondsBeforeSteal: 1.2
+  waitSecondsAfterSteal: 0.6
