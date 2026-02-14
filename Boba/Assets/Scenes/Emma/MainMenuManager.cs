@@ -7,24 +7,21 @@ public class MenuManager : MonoBehaviour
     [Header("Panels")]
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
-<<<<<<< Updated upstream
     
-=======
+    // Questi sono quelli che avevi aggiunto tu e che vogliamo tenere
     public GameObject storyMenuPanel;
-
     public GameObject loginButton;
 
->>>>>>> Stashed changes
     void Start()
     {
         // Mostra menu principale all'avvio
         ShowMainMenu();
 
+        // --- CODICE LOGIN CHE ABBIAMO FATTO OGGI ---
         // Controlliamo se l'utente è già loggato
         if (PlayerPrefs.HasKey("CurrentUser"))
         {
-            // --- UTENTE GIÀ DENTRO ---
-            // Nascondiamo solo il login, il resto rimane uguale
+            // UTENTE GIÀ DENTRO -> Nascondiamo il login
             if(loginButton != null) 
                 loginButton.SetActive(false);
             
@@ -32,12 +29,10 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            // --- NESSUNO LOGGATO ---
-            // Assicuriamoci che il login sia visibile per chi vuole entrare
+            // NESSUNO LOGGATO -> Mostriamo il login
             if(loginButton != null) 
                 loginButton.SetActive(true);
         }
-        
     }
     
     void Update()
@@ -66,15 +61,15 @@ public class MenuManager : MonoBehaviour
     void ShowMainMenu()
     {
         mainMenuPanel.SetActive(true);
-        optionsPanel.SetActive(false);
+        if(optionsPanel != null) optionsPanel.SetActive(false);
+        if(storyMenuPanel != null) storyMenuPanel.SetActive(false);
     }
-    
-    // === PULSANTI MENU PRINCIPALE ===
     
     // === PULSANTI MENU PRINCIPALE ===
 
     public void PlayGame() 
     {
+        // Nota: Assicurati che la scena si chiami "Main"
         SceneManager.LoadScene("Main"); 
     }
     
@@ -87,8 +82,6 @@ public class MenuManager : MonoBehaviour
     
     public void QuitGame()
     {
-        //non ho fatto solo l application quit perché aggiungendo queste righe posso controllare
-        //che funzioni correttamente il bottone fermando la simulazione nell editor di unity (funziona)
         #if UNITY_EDITOR
         // Nell'editor: ferma il Play Mode
         UnityEditor.EditorApplication.isPlaying = false;
@@ -106,5 +99,3 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Tornato al menu principale");
     }
 }
-    
-    
