@@ -6,6 +6,9 @@ public class PauseManager : MonoBehaviour
 {
     [Header("Trascina qui l'oggetto 'PauseMenu' intero")]
     public GameObject pauseMenuPanel;
+
+    [Header("Bottoni")]
+    public GameObject logoutButton;
     
     [Header("Oggetti Audio")]
     public AudioSource backgroundMusic;
@@ -14,9 +17,25 @@ public class PauseManager : MonoBehaviour
 
     void Start()
     {
-        // il menu chiuso quando parte il gioco
         if(pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
+
+        // 2. CONTROLLO LOGOUT:
+        // Controlliamo se l'utente è loggato
+        if (PlayerPrefs.HasKey("CurrentUser"))
+        {
+            // --- UTENTE LOGGATO (es. Andrea) ---
+            Debug.Log("Utente loggato rilevato: Mostro il tasto Logout.");
+            if(logoutButton != null) 
+                logoutButton.SetActive(true); // MOSTRO IL BOTTONE
+        }
+        else
+        {
+            // --- NESSUNO LOGGATO (Ospite) ---
+            Debug.Log("Nessun utente loggato: Nascondo il tasto Logout.");
+            if(logoutButton != null) 
+                logoutButton.SetActive(false); // NASCONDO IL BOTTONE
+        }
     }
 
     //FUNZIONE 1: Apre il menu di pausa
@@ -71,4 +90,21 @@ public class PauseManager : MonoBehaviour
             backgroundMusic.volume = volume;
         }
     }
+
+
+    public void PerformLogout()
+    {
+        // 1. Cancelliamo la "memoria" di chi è loggato
+        PlayerPrefs.DeleteKey("CurrentUser");
+        PlayerPrefs.Save();
+        
+        Debug.Log("Logout effettuato. Utente disconnesso.");
+
+        // 2. Scongeliamo il tempo 
+        Time.timeScale = 1f; 
+
+        // 3. Torniamo alla Homepage
+        SceneManager.LoadScene("MainMenu"); 
+    }
+
 }
