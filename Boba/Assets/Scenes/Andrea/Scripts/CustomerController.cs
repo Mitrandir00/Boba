@@ -22,14 +22,13 @@ public class CustomerController : MonoBehaviour
     public Transform exitPoint;
 
     // =========================
-    // RANGE MODIFICABILI SOLO DA CODICE (come vuoi tu)
+    // RANGE MODIFICABILI SOLO DA CODICE
     // =========================
-    // Se vuoi cambiarli, lo fai qui nel file, non nell'Inspector.
     private const float MIN_MOVE_SPEED = 2.5f;
     private const float MAX_MOVE_SPEED = 12.0f;
 
-    private const float MIN_WAIT_SECONDS = 2.0f;   // meno di così diventa cattivo subito
-    private const float MAX_WAIT_SECONDS = 14.0f;  // più di così troppo easy
+    private const float MIN_WAIT_SECONDS = 2.0f;
+    private const float MAX_WAIT_SECONDS = 14.0f;
 
     // =========================
     // VALORI RUNTIME (calcolati dagli slider)
@@ -85,6 +84,11 @@ public class CustomerController : MonoBehaviour
     private bool settling;
 
     // =========================
+    // CLIENTI SPECIALI
+    // =========================
+    private SpoiledCatNoPay spoiledCat; // se presente -> niente soldi
+
+    // =========================
     // UNITY LIFECYCLE
     // =========================
     private void Awake()
@@ -92,7 +96,10 @@ public class CustomerController : MonoBehaviour
         if (!order) order = GetComponentInChildren<CustomerOrder>(true);
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
 
-        // valori di default (se lo spawner non setta nulla)
+        // cache cliente speciale (se sul prefab c'è)
+        spoiledCat = GetComponent<SpoiledCatNoPay>();
+
+        // valori di default
         moveSpeed = MIN_MOVE_SPEED;
         maxWaitSeconds = MAX_WAIT_SECONDS;
     }
@@ -115,8 +122,6 @@ public class CustomerController : MonoBehaviour
     // =========================
     // API PER LO SPAWNER (SLIDER 0..1)
     // =========================
-    // speedT: 0 -> MIN_MOVE_SPEED, 1 -> MAX_MOVE_SPEED
-    // waitT:  0 -> MAX_WAIT_SECONDS (molta pazienza), 1 -> MIN_WAIT_SECONDS (poca pazienza)
     public void ApplyTuning(float speedT, float waitT)
     {
         speedT = Mathf.Clamp01(speedT);
@@ -159,7 +164,7 @@ public class CustomerController : MonoBehaviour
     }
 
     // =========================
-    // ATTESA (vale sia in story sia in infinito)
+    // ATTESA
     // =========================
     private void EnterWaitingState()
     {
@@ -208,9 +213,13 @@ public class CustomerController : MonoBehaviour
         {
             SetRandomSprite(happySprites);
 
-            if (EconomyManager.instance != null)
-                EconomyManager.instance.AddCoins(rewardAmount);
-
+            // ✅ Se NON è un gatto viziato, paga
+            if (spoiledCat == null)
+            {
+                if (EconomyManager.instance != null)
+                    EconomyManager.instance.AddCoins(rewardAmount);
+            }
+            // se è viziato: non dà soldi, ma è comunque "corretto"
             OnOrderCorrect?.Invoke();
         }
         else

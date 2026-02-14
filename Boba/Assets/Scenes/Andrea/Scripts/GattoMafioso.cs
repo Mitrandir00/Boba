@@ -16,8 +16,7 @@ public class MafiaCatController : MonoBehaviour
     public float waitSecondsBeforeSteal = 1f;
     public float waitSecondsAfterSteal = 0.8f;
 
-    // 🔹 Tiene memoria dei livelli in cui ha già rubato (durante questa run)
-    private static HashSet<int> stolenLevels = new HashSet<int>();
+    // 🔹 Tiene memoria dei livelli in cui ha già rubato (durante questa run
 
     private void OnEnable()
     {
@@ -38,14 +37,7 @@ public class MafiaCatController : MonoBehaviour
 
         int currentLevel = Mathf.Clamp(GameSettings.SelectedLevel, 1, 3);
 
-        // Se ha già rubato in questo livello, esce subito
-        if (stolenLevels.Contains(currentLevel))
-        {
-            StartCoroutine(LeaveImmediately());
-            return;
-        }
-
-        stolenLevels.Add(currentLevel);
+       
         StartCoroutine(RobRoutine(currentLevel));
     }
 
@@ -126,9 +118,4 @@ public class MafiaCatController : MonoBehaviour
         Debug.Log($"[MafiaCat] Ha rubato {amountToSteal} monete ({percent * 100f:0}% del totale).");
     }
 
-    // 🔹 Se vuoi resettare manualmente tra scene
-    public static void ResetRunMemory()
-    {
-        stolenLevels.Clear();
-    }
 }
