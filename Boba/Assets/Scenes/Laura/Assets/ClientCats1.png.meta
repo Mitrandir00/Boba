@@ -1,0 +1,542 @@
+fileFormatVersion: 2
+guid: ee0942f3f59838449a93366b751cec7a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9103060701412967324
+    second: ClientCats1_0
+  - first:
+      213: 8477040011691641945
+    second: ClientCats1_1
+  - first:
+      213: -5263584263576962964
+    second: ClientCats1_2
+  - first:
+      213: -4940073844154205244
+    second: ClientCats1_3
+  - first:
+      213: 6672277680099060628
+    second: ClientCats1_4
+  - first:
+      213: -2183816114814988036
+    second: ClientCats1_5
+  - first:
+      213: 7677394655826315794
+    second: ClientCats1_6
+  - first:
+      213: 1647446698004481949
+    second: ClientCats1_7
+  - first:
+      213: -5170878761530903364
+    second: ClientCats1_8
+  - first:
+      213: 4813899704931783959
+    second: ClientCats1_9
+  - first:
+      213: -6162801212693306765
+    second: ClientCats1_10
+  - first:
+      213: 5434859121902489438
+    second: ClientCats1_11
+  - first:
+      213: -69612273596753261
+    second: ClientCats1_12
+  - first:
+      213: 2898435868115381358
+    second: ClientCats1_13
+  - first:
+      213: 1203605992270221739
+    second: ClientCats1_14
+  - first:
+      213: 838279364130981672
+    second: ClientCats1_15
+  - first:
+      213: 2515562944084424988
+    second: ClientCats1_16
+  - first:
+      213: 8549312130317784880
+    second: ClientCats1_17
+  - first:
+      213: -1257129550589384538
+    second: ClientCats1_18
+  - first:
+      213: 4211122334316968104
+    second: ClientCats1_19
+  - first:
+      213: 9143107928633892842
+    second: ClientCats1_20
+  - first:
+      213: -3114848400395974773
+    second: ClientCats1_21
+  - first:
+      213: 1476765878720723478
+    second: ClientCats1_22
+  - first:
+      213: -2807621290749641185
+    second: ClientCats1_23
+  - first:
+      213: 1004238677186173736
+    second: ClientCats1_24
+  - first:
+      213: 663539961442071388
+    second: ClientCats1_25
+  - first:
+      213: 8522022364008262533
+    second: ClientCats1_26
+  - first:
+      213: 2313144165507126552
+    second: ClientCats1_27
+  - first:
+      213: -1694611138141182799
+    second: ClientCats1_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ClientCats1_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 1086
+        width: 396
+        height: 402
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46c367ba58e6ba180800000000000000
+      internalID: -9103060701412967324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_1
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1081
+        width: 524
+        height: 526
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95c47a33afe74a570800000000000000
+      internalID: 8477040011691641945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_2
+      rect:
+        serializedVersion: 2
+        x: 1226
+        y: 1113
+        width: 505
+        height: 428
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c68b82cfffdf3f6b0800000000000000
+      internalID: -5263584263576962964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_3
+      rect:
+        serializedVersion: 2
+        x: 1798
+        y: 1042
+        width: 482
+        height: 534
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cb7dfa2305517bb0800000000000000
+      internalID: -4940073844154205244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_4
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 577
+        width: 496
+        height: 420
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49b6215e231b89c50800000000000000
+      internalID: 6672277680099060628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_5
+      rect:
+        serializedVersion: 2
+        x: 1243
+        y: 581
+        width: 444
+        height: 424
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf0ddad50d681b1e0800000000000000
+      internalID: -2183816114814988036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_6
+      rect:
+        serializedVersion: 2
+        x: 1793
+        y: 577
+        width: 438
+        height: 429
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21a820d43c59b8a60800000000000000
+      internalID: 7677394655826315794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_7
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 307
+        width: 186
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9782f41b08ecd610800000000000000
+      internalID: 1647446698004481949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_8
+      rect:
+        serializedVersion: 2
+        x: 1144
+        y: 310
+        width: 186
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb4b652b9295d38b0800000000000000
+      internalID: -5170878761530903364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_9
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 307
+        width: 186
+        height: 84
+      alignment: 9
+      pivot: {x: 0.4999987, y: 0.4668612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71511d8c6486ec240800000000000000
+      internalID: 4813899704931783959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_10
+      rect:
+        serializedVersion: 2
+        x: 1676
+        y: 307
+        width: 186
+        height: 84
+      alignment: 9
+      pivot: {x: 0.4999987, y: 0.4668612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 372a110f2f4597aa0800000000000000
+      internalID: -6162801212693306765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_11
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 307
+        width: 186
+        height: 84
+      alignment: 9
+      pivot: {x: 0.4999987, y: 0.4668612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5f0a45839f7c6b40800000000000000
+      internalID: 5434859121902489438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_12
+      rect:
+        serializedVersion: 2
+        x: 2143
+        y: 304
+        width: 186
+        height: 84
+      alignment: 9
+      pivot: {x: 0.4999987, y: 0.4668612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39a12488100b80ff0800000000000000
+      internalID: -69612273596753261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClientCats1_29
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 307
+        width: 186
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 202c3d68ad9ecc84c8c8054373db9a21
+      internalID: 1548812267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: aa018570dd16eb847a404986359af6d4
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      ClientCats1_0: -9103060701412967324
+      ClientCats1_1: 8477040011691641945
+      ClientCats1_10: -6162801212693306765
+      ClientCats1_11: 5434859121902489438
+      ClientCats1_12: -69612273596753261
+      ClientCats1_13: 2898435868115381358
+      ClientCats1_14: 1203605992270221739
+      ClientCats1_15: 838279364130981672
+      ClientCats1_16: 2515562944084424988
+      ClientCats1_17: 8549312130317784880
+      ClientCats1_18: -1257129550589384538
+      ClientCats1_19: 4211122334316968104
+      ClientCats1_2: -5263584263576962964
+      ClientCats1_20: 9143107928633892842
+      ClientCats1_21: -3114848400395974773
+      ClientCats1_22: 1476765878720723478
+      ClientCats1_23: -2807621290749641185
+      ClientCats1_24: 1004238677186173736
+      ClientCats1_25: 663539961442071388
+      ClientCats1_26: 8522022364008262533
+      ClientCats1_27: 2313144165507126552
+      ClientCats1_28: -1694611138141182799
+      ClientCats1_29: 1548812267
+      ClientCats1_3: -4940073844154205244
+      ClientCats1_4: 6672277680099060628
+      ClientCats1_5: -2183816114814988036
+      ClientCats1_6: 7677394655826315794
+      ClientCats1_7: 1647446698004481949
+      ClientCats1_8: -5170878761530903364
+      ClientCats1_9: 4813899704931783959
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("Panels")]
+    [Header("Pannelli UI")]
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
     
@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        // Mostra menu principale all'avvio
+        // Assicura che all'avvio sia visibile solo il menu principale
         ShowMainMenu();
 
         // --- CODICE LOGIN CHE ABBIAMO FATTO OGGI ---
@@ -34,21 +34,29 @@ public class MenuManager : MonoBehaviour
                 loginButton.SetActive(true);
         }
     }
-    
+
     void Update()
     {
-        // Gestione tasto Back Android / ESC
+        // Gestione tasto Back Android / ESC per chiudere i menu o il gioco
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             HandleBackButton();
         }
     }
-    
-    // === NAVIGAZIONE ===
-    
-    void HandleBackButton()
+
+    // --- LOGICA DI NAVIGAZIONE ---
+
+    private void ShowMainMenu()
     {
-        if (optionsPanel.activeSelf)
+        mainMenuPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+        storyMenuPanel.SetActive(false);
+    }
+
+    private void HandleBackButton()
+    {
+        // Se siamo in un sottomenu, torna al principale. Altrimenti, esce.
+        if (optionsPanel.activeSelf || storyMenuPanel.activeSelf)
         {
             BackToMainMenu();
         }
@@ -67,12 +75,14 @@ public class MenuManager : MonoBehaviour
     
     // === PULSANTI MENU PRINCIPALE ===
 
-    public void PlayGame() 
+    // --- PULSANTI MENU PRINCIPALE ---
+
+    public void OpenStoryMenu()
     {
-        // Nota: Assicurati che la scena si chiami "Main"
-        SceneManager.LoadScene("Main"); 
+        mainMenuPanel.SetActive(false);
+        storyMenuPanel.SetActive(true);
     }
-    
+
     public void OpenOptions()
     {
         mainMenuPanel.SetActive(false);
@@ -97,5 +107,37 @@ public class MenuManager : MonoBehaviour
     {
         ShowMainMenu();
         Debug.Log("Tornato al menu principale");
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Chiusura gioco...");
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+
+    // --- AVVIO MODALITÀ DI GIOCO ---
+
+    public void StartInfiniteMode()
+    {
+        // Configura le impostazioni globali per la modalità infinita
+        GameSettings.IsStoryMode = false;
+        GameSettings.SelectedLevel = 0;
+        
+        Debug.Log("Avvio Modalità Infinita");
+        SceneManager.LoadScene("Main");
+    }
+
+    public void StartStoryLevel(int levelIndex)
+    {
+        // Configura le impostazioni globali per il livello specifico della storia
+        GameSettings.IsStoryMode = true;
+        GameSettings.SelectedLevel = levelIndex;
+        
+        Debug.Log("Avvio Livello Storia: " + levelIndex);
+        SceneManager.LoadScene("Main");
     }
 }

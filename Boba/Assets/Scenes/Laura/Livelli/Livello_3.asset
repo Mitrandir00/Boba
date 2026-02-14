@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb7d08752f6c6e48868ca16f59fb570, type: 3}
+  m_Name: Livello_3
+  m_EditorClassIdentifier: 
+  isStoryMode: 1
+  goalCointAmount: 0
+  customerSequence:
+  - {fileID: 5885106867128739669, guid: 78db9d53ccaecb3488df86413f9c1e00, type: 3}
+  - {fileID: 5885106867128739669, guid: cbe4c0868a3c5014ea1176662666c644, type: 3}
+  - {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+  - {fileID: 5885106867128739669, guid: 2d969982c69cbca40b14e450730a06ba, type: 3}
+  - {fileID: 5885106867128739669, guid: 8fba72c7e37886440b67f1196e21b7bc, type: 3}
+  - {fileID: 6323722743728320424, guid: df3b4d4eff477cd4f843b677a1334081, type: 3}
+  - {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+  - {fileID: 4684510952955081117, guid: 4675a1c4e453dc94e8ebbb1484a503fb, type: 3}
