@@ -8,17 +8,17 @@ public class LevelManager : MonoBehaviour
     [Header("Configurazione Livelli")]
     public List<LevelData> levels;
 
-    [Header("Spawner References (metti qui SINISTRA e DESTRA)")]
+    [Header("Spawner References (metti qui SINISTRA [0] e DESTRA [1])")]
     public List<CustomerSpawner> spawners;
 
     private LevelData currentLevelData;
 
-    void Awake()
+    private void Awake()
     {
         instance = this;
     }
 
-    void Start()
+    private void Start()
     {
         if (spawners == null || spawners.Count == 0)
         {
@@ -32,33 +32,64 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Modalità Infinita Attivata");
-
-            foreach (var spawner in spawners)
-            {
-                if (spawner != null)
-                    spawner.StartInfiniteMode();
-            }
+            StartInfiniteMode();
         }
     }
 
-    void LoadStoryLevel(int index)
+    private void StartInfiniteMode()
     {
-        int listIndex = index - 1;
+        Debug.Log("Modalità Infinita Attivata");
+
+        foreach (var spawner in spawners)
+        {
+            if (spawner == null) continue;
+
+            // riattiva eventuali spawner spenti dalla story
+            spawner.gameObject.SetActive(true);
+            spawner.SetLogicEnabled(true);
+
+            spawner.StartInfiniteMode();
+        }
+    }
+
+    private void LoadStoryLevel(int levelNumber)
+    {
+        int listIndex = levelNumber - 1;
 
         if (listIndex < 0 || listIndex >= levels.Count)
         {
-            Debug.LogError($"[LevelManager] Livello storia non valido: {index}");
+            Debug.LogError($"[LevelManager] Livello storia non valido: {levelNumber}");
             return;
         }
 
         currentLevelData = levels[listIndex];
         Debug.Log("Caricato Livello Storia: " + currentLevelData.name);
 
-        foreach (var spawner in spawners)
+        // SOLO SINISTRA = spawners[0]
+        CustomerSpawner leftSpawner = spawners[0];
+
+        if (leftSpawner != null)
         {
-            if (spawner != null)
-                spawner.StartStorySequence(currentLevelData.customerSequence, index);
+            leftSpawner.gameObject.SetActive(true);
+            leftSpawner.SetLogicEnabled(true);
+            leftSpawner.StartStorySequence(currentLevelData.customerSequence, levelNumber);
+        }
+        else
+        {
+            Debug.LogError("[LevelManager] Spawner sinistro (index 0) è nullo!");
+        }
+
+        // spegni tutti gli altri (destra compresa)
+        for (int i = 1; i < spawners.Count; i++)
+        {
+            var spawner = spawners[i];
+            if (spawner == null) continue;
+
+            spawner.StopSpawning();
+            spawner.SetLogicEnabled(false);
+
+            // Spegnimento totale (così sei sicuro al 100% che non spawni)
+            spawner.gameObject.SetActive(false);
         }
     }
 
