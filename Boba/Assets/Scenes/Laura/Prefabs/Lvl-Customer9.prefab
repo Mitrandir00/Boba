@@ -205,8 +205,8 @@ MonoBehaviour:
   waitPoint: {fileID: 0}
   exitPoint: {fileID: 0}
   moveSpeed: 2.5
-  maxWaitSeconds: 12
-  rewardAmount: 20
+  maxWaitSeconds: 14
+  arriveThreshold: 0.01
   enableSettleHop: 1
   hopHeight: 0.09
   hopUpTime: 0.09
@@ -253,15 +253,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  order: {fileID: 6868724971920214771}
-  orderUI: {fileID: 0}
   OnOrderCorrect:
     m_PersistentCalls:
       m_Calls: []
   OnOrderWrong:
     m_PersistentCalls:
       m_Calls: []
-  isStoryMode: 0
+  order: {fileID: 6868724971920214771}
+  orderUI: {fileID: 0}
+  rewardAmount: 20
 --- !u!114 &6868724971920214771
 MonoBehaviour:
   m_ObjectHideFlags: 0

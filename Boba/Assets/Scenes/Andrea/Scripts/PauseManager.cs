@@ -10,13 +10,30 @@ public class PauseManager : MonoBehaviour
     [Header("Oggetti Audio")]
     public AudioSource backgroundMusic;
 
+    [Header("Logout")] // <--- NUOVO: Aggiungi questo header
+    public GameObject logoutButton; // <--- NUOVO: La variabile per il bottone
+
     private bool isPaused = false;
 
     void Start()
     {
-        // il menu chiuso quando parte il gioco
+        // Il menu è chiuso quando parte il gioco
         if(pauseMenuPanel != null)
             pauseMenuPanel.SetActive(false);
+
+        // --- CONTROLLO VISIBILITÀ LOGOUT (NUOVO) ---
+        // Se siamo nel menu principale e apriamo le opzioni, controlliamo se mostrare il logout
+        if (logoutButton != null)
+        {
+            if (PlayerPrefs.HasKey("CurrentUser"))
+            {
+                logoutButton.SetActive(true); // Se sei loggato, mostra "Esci"
+            }
+            else
+            {
+                logoutButton.SetActive(false); // Se non sei loggato, nascondilo
+            }
+        }
     }
 
     //FUNZIONE 1: Apre il menu di pausa
@@ -38,10 +55,7 @@ public class PauseManager : MonoBehaviour
     //FUNZIONE 3: Torna alla Homepage
     public void GoToMainMenu()
     {
-        // FONDAMENTALE: Prima di uscire, dobbiamo far ripartire il tempo!
-        // Se non lo fai, quando ricominci a giocare il gioco sarà ancora congelato.
         Time.timeScale = 1f; 
-        
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -55,20 +69,30 @@ public class PauseManager : MonoBehaviour
     // FUNZIONE 5: Riavvia il livello corrente
     public void RestartLevel()
     {
-        // Importante: scongela il gioco prima di ricaricare!
         Time.timeScale = 1f; 
-        
-        // Ricarica la scena che stai giocando adesso (resetta tutto)
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // FUNZIONE VOLUME
     public void SetVolume(float volume)
     {
-        // Se c'è la musica, cambia il volume
         if (backgroundMusic != null)
         {
             backgroundMusic.volume = volume;
         }
+    }
+
+    // --- NUOVA FUNZIONE: LOGOUT ---
+    public void LogOut()
+    {
+        // 1. Scongela il gioco (importante se lo fai mentre sei in pausa)
+        Time.timeScale = 1f;
+
+        // 2. Cancella i dati dell'utente
+        PlayerPrefs.DeleteKey("CurrentUser");
+        Debug.Log("Logout effettuato da PauseManager!");
+
+        // 3. Ricarica la scena del Menu Principale per resettare tutto (e mostrare il Login)
+        SceneManager.LoadScene("MainMenu");
     }
 }
