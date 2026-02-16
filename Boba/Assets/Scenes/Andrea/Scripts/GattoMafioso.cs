@@ -1,121 +1,103 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Serve per cambiare scena
 using System.Collections;
-using System.Collections.Generic;
 
 public class MafiaCatController : MonoBehaviour
 {
-    [Header("Percentuale rubata per livello (0..1)")]
-    [Range(0f, 1f)] public float stealPercentLevel1 = 0.10f;
-    [Range(0f, 1f)] public float stealPercentLevel2 = 0.20f;
-    [Range(0f, 1f)] public float stealPercentLevel3 = 0.30f;
+    [Header("Impostazioni Furto")]
+    [Range(0f, 1f)] public float stealPercent = 0.50f; 
+    public string mafiaDialogue = "Finito! Dammi i soldi...";
 
-    [Header("Movimento")]
+    [Header("Riferimenti")]
     public Transform waitPoint;
     public Transform exitPoint;
     public float moveSpeed = 3.5f;
-    public float waitSecondsBeforeSteal = 1f;
-    public float waitSecondsAfterSteal = 0.8f;
 
-    // 🔹 Tiene memoria dei livelli in cui ha già rubato (durante questa run
-
-    private void OnEnable()
-    {
-        // Se non siamo in modalità storia, il gatto non deve esistere
-        if (!GameSettings.IsStoryMode)
-        {
-            Destroy(gameObject);
-        }
-    }
+    [Header("UI & Balloon")]
+    public CustomerOrderUI orderUI;
+    public Button balloonButton;
 
     private void Start()
     {
-        if (waitPoint == null || exitPoint == null)
+        if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>();
+        
+        // Disattiva il bottone all'inizio
+        if (balloonButton) balloonButton.interactable = false;
+
+        StartCoroutine(RobRoutine());
+    }
+
+    private IEnumerator RobRoutine()
+    {
+        // 1. Vai al centro
+        yield return MoveTo(waitPoint.position);
+
+        // 2. Ruba i soldi (con DEBUG per capire il problema)
+        StealMoney();
+
+        // 3. Mostra il Balloon
+        if (orderUI)
         {
-            Debug.LogError("[MafiaCat] waitPoint o exitPoint non assegnati!");
+            orderUI.ShowTextOrder(mafiaDialogue);
+            
+            if (balloonButton) 
+            {
+                balloonButton.interactable = true;
+                // Rimuove vecchi click e aggiunge il nuovo
+                balloonButton.onClick.RemoveAllListeners();
+                balloonButton.onClick.AddListener(OnBalloonClicked);
+            }
+        }
+    }
+
+    // QUESTA FUNZIONE PARTE QUANDO CLICCHI IL BALLOON
+    public void OnBalloonClicked()
+    {
+        Debug.Log("Gatto cliccato: Fine Livello!");
+
+        // 1. Spegni UI
+        if (orderUI) orderUI.Hide();
+
+        // 2. Salva un "messaggio" per il Menu Principale
+        // "1" significa: Appena il menu si apre, vai alla selezione livelli
+        PlayerPrefs.SetInt("OpenLevelSelect", 1);
+        PlayerPrefs.Save();
+
+        // 3. Carica la scena del Menu (Assicurati si chiami "MainMenu")
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private void StealMoney()
+    {
+        // Controllo 1: Esiste il manager?
+        if (EconomyManager.instance == null)
+        {
+            Debug.LogError("ERRORE: EconomyManager non trovato nella scena! Il gatto non può rubare.");
             return;
         }
 
-        int currentLevel = Mathf.Clamp(GameSettings.SelectedLevel, 1, 3);
-
-       
-        StartCoroutine(RobRoutine(currentLevel));
-    }
-
-    private IEnumerator RobRoutine(int level)
-    {
-        // 1️⃣ Vai al centro
-        yield return MoveTo(waitPoint.position);
-
-        // 2️⃣ Attesa "minacciosa"
-        if (waitSecondsBeforeSteal > 0f)
-            yield return new WaitForSeconds(waitSecondsBeforeSteal);
-
-        // 3️⃣ Ruba
-        float percent = GetPercentForLevel(level);
-        StealPercent(percent);
-
-        // 4️⃣ Attesa post furto
-        if (waitSecondsAfterSteal > 0f)
-            yield return new WaitForSeconds(waitSecondsAfterSteal);
-
-        // 5️⃣ Esci
-        yield return MoveTo(exitPoint.position);
-
-        Destroy(gameObject);
-    }
-
-    private IEnumerator LeaveImmediately()
-    {
-        yield return MoveTo(exitPoint.position);
-        Destroy(gameObject);
-    }
-
-    private float GetPercentForLevel(int level)
-    {
-        switch (level)
+        // Controllo 2: Hai soldi?
+        int currentCoins = EconomyManager.instance.CurrentCoins;
+        if (currentCoins <= 0)
         {
-            case 1: return stealPercentLevel1;
-            case 2: return stealPercentLevel2;
-            case 3: return stealPercentLevel3;
-            default: return stealPercentLevel1;
+            Debug.LogWarning("Il gatto voleva rubare, ma hai 0 monete! (Quindi ruba 0)");
+            return;
         }
+
+        // Esegui il furto
+        int stolen = Mathf.FloorToInt(currentCoins * stealPercent);
+        EconomyManager.instance.SpendCoins(stolen);
+        
+        Debug.Log($"FURTO RIUSCITO: Avevi {currentCoins}, rubati {stolen}.");
     }
 
     private IEnumerator MoveTo(Vector3 target)
     {
-        while (Vector2.Distance(transform.position, target) > 0.05f)
+        while (Vector3.Distance(transform.position, target) > 0.05f)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                target,
-                moveSpeed * Time.deltaTime
-            );
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             yield return null;
         }
     }
-
-    private void StealPercent(float percent)
-    {
-        if (EconomyManager.instance == null)
-        {
-            Debug.LogWarning("[MafiaCat] EconomyManager non trovato!");
-            return;
-        }
-
-        percent = Mathf.Clamp01(percent);
-
-        int currentCoins = EconomyManager.instance.CurrentCoins;
-        int amountToSteal = Mathf.FloorToInt(currentCoins * percent);
-
-        if (amountToSteal <= 0)
-        {
-            Debug.Log("[MafiaCat] Non c'è niente da rubare.");
-            return;
-        }
-
-        EconomyManager.instance.SpendCoins(amountToSteal);
-
-        Debug.Log($"[MafiaCat] Ha rubato {amountToSteal} monete ({percent * 100f:0}% del totale).");
-    }
-
 }

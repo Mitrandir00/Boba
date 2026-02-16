@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: -4962311492220240731}
   - component: {fileID: -8903601629711414858}
   - component: {fileID: -8272819978331842250}
+  - component: {fileID: -6011327457018164814}
   m_Layer: 0
   m_Name: Viziato
   m_TagString: Customer
@@ -527,7 +528,7 @@ MonoBehaviour:
   sadSprites: []
   waitPoint: {fileID: 0}
   exitPoint: {fileID: 0}
-  thinkingTime: 1.5
+  thinkingTime: 0.5
   moveSpeed: 2.5
   maxWaitSeconds: 14
   arriveThreshold: 0.01
@@ -538,7 +539,7 @@ MonoBehaviour:
   OnReadyToOrder:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6868724971920214771, guid: 1cf4029eac7368a488c1f90e5ef54f48, type: 3}
+      - m_Target: {fileID: -3150477857095268800}
         m_TargetAssemblyTypeName: CustomerOrder, Assembly-CSharp
         m_MethodName: PickAndShowOrder
         m_Mode: 1
@@ -601,9 +602,8 @@ MonoBehaviour:
   database: {fileID: 11400000, guid: 4099d2a065535144fb5b540be91fdf3c, type: 2}
   orderUI: {fileID: 0}
   indicator: {fileID: 0}
-  storyRecipe: {fileID: 11400000, guid: bc376d324df7b1444bf3725a15f96606, type: 2}
-  storyDialogue: Miehehehe, my subordinate, do you know who I am? Yes, your boss's
-    son. Now give me the bubble tea with the super chocolate.
+  storyRecipe: {fileID: 0}
+  storyDialogue: 
   OnCorrectDrink:
     m_PersistentCalls:
       m_Calls: []
@@ -678,3 +678,17 @@ MonoBehaviour:
   dialogueText: {fileID: 0}
   balloonRoot: {fileID: 0}
   recipeText: {fileID: 0}
+--- !u!114 &-6011327457018164814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6323722743728320424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18cad8c88923bc429666d169d368cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storyOnly: 1
+  onlyOncePerLevel: 0

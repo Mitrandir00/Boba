@@ -25,7 +25,22 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        ShowMainMenu();
+        // 1. Controlla se dobbiamo aprire direttamente la selezione livelli
+        if (PlayerPrefs.GetInt("OpenLevelSelect", 0) == 1)
+        {
+            // Resetta il messaggio (così non lo fa sempre)
+            PlayerPrefs.SetInt("OpenLevelSelect", 0);
+            
+            // Apri direttamente il menu storia
+            if(mainMenuPanel) mainMenuPanel.SetActive(false);
+            if(storyMenuPanel) storyMenuPanel.SetActive(true);
+        }
+        else
+        {
+            // Comportamento normale (Home Page)
+            ShowMainMenu();
+        }
+
         CheckLoginStatus();
     }
 
@@ -105,7 +120,19 @@ public class MenuManager : MonoBehaviour
     public void ShowMainMenu() { mainMenuPanel.SetActive(true); if(optionsPanel) optionsPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(false); }
     public void BackToMainMenu() { ShowMainMenu(); }
     private void HandleBackButton() { if (optionsPanel != null && optionsPanel.activeSelf) BackToMainMenu(); else QuitGame(); }
-    public void QuitGame() { Application.Quit(); }
+    public void QuitGame() 
+    { 
+        // 1. Aggiungi un Log per essere sicuro che il bottone sia collegato
+        Debug.Log("Sto chiudendo il gioco...");
+
+        #if UNITY_EDITOR
+            // Se siamo nell'Editor, ferma la modalità Play
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Se siamo nel gioco vero (Build), chiude l'applicazione
+            Application.Quit();
+        #endif
+    }
     
     // Funzioni per aprire i pannelli
     public void OpenOptions() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(optionsPanel) optionsPanel.SetActive(true); }

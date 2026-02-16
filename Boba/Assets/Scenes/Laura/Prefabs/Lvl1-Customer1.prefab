@@ -8,9 +8,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: recipeText
+      value: 
+      objectReference: {fileID: 3790265720129150649}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: balloonRoot
+      value: 
+      objectReference: {fileID: 8059270892052012896}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: balloonPanel
+      value: 
+      objectReference: {fileID: 8059270892052012896}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 3790265720129150649}
     - target: {fileID: 1032720204675231282, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4599316684999844000, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: thinkingTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -68,30 +88,21 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 550087088681706807}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
---- !u!1 &3467952183524546055 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+--- !u!114 &3790265720129150649 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6130814404461965291, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
   m_PrefabInstance: {fileID: 7029201616891736402}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &550087088681706807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3467952183524546055}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec35c43d57ae2eb438ebee54d0321be4, type: 3}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconPanel: {fileID: 0}
-  balloonPanel: {fileID: 0}
-  dialogueText: {fileID: 0}
-  balloonRoot: {fileID: 0}
-  recipeText: {fileID: 0}
+--- !u!1 &8059270892052012896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1032720204675231282, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+  m_PrefabInstance: {fileID: 7029201616891736402}
+  m_PrefabAsset: {fileID: 0}

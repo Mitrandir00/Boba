@@ -357,8 +357,8 @@ MonoBehaviour:
   - {fileID: -6162801212693306765, guid: ee0942f3f59838449a93366b751cec7a, type: 3}
   waitPoint: {fileID: 0}
   exitPoint: {fileID: 0}
-  thinkingTime: 1.5
-  moveSpeed: 2.5
+  thinkingTime: 0.5
+  moveSpeed: 1
   maxWaitSeconds: 12
   arriveThreshold: 0.01
   enableSettleHop: 1

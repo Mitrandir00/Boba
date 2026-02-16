@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 4599316684999844000}
   - component: {fileID: 6868724971920214771}
   - component: {fileID: -7776557289507485377}
+  - component: {fileID: 473833475806933996}
   m_Layer: 0
   m_Name: Lvl-Customer3
   m_TagString: Customer
@@ -417,7 +418,8 @@ MonoBehaviour:
   - {fileID: -6162801212693306765, guid: ee0942f3f59838449a93366b751cec7a, type: 3}
   waitPoint: {fileID: 0}
   exitPoint: {fileID: 0}
-  moveSpeed: 2.5
+  thinkingTime: 0.5
+  moveSpeed: 1
   maxWaitSeconds: 12
   arriveThreshold: 0.01
   enableSettleHop: 1
@@ -559,6 +561,23 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 5.0506616, y: 4.2799997}
   m_Direction: 0
+--- !u!114 &473833475806933996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5885106867128739669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec35c43d57ae2eb438ebee54d0321be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconPanel: {fileID: 0}
+  balloonPanel: {fileID: 0}
+  dialogueText: {fileID: 0}
+  balloonRoot: {fileID: 0}
+  recipeText: {fileID: 0}
 --- !u!1 &7120420745793207241
 GameObject:
   m_ObjectHideFlags: 0

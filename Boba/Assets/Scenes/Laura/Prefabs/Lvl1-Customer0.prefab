@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 1410949849073446646}
+    - target: {fileID: 4599316684999844000, guid: cbe4c0868a3c5014ea1176662666c644, type: 3}
+      propertyPath: thinkingTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5641408076611406115, guid: cbe4c0868a3c5014ea1176662666c644, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14

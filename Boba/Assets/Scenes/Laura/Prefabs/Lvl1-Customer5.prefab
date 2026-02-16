@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4599316684999844000, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+      propertyPath: thinkingTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5641408076611406115, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14
@@ -64,41 +68,32 @@ PrefabInstance:
       propertyPath: storyDialogue
       value: 'Woah cute this place, pliz I want the Strawberry Tea '
       objectReference: {fileID: 0}
+    - target: {fileID: 8438366858050283140, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+      propertyPath: recipeText
+      value: 
+      objectReference: {fileID: 7418709286406462950}
+    - target: {fileID: 8438366858050283140, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+      propertyPath: balloonRoot
+      value: 
+      objectReference: {fileID: 2058453210910620702}
+    - target: {fileID: 8438366858050283140, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+      propertyPath: balloonPanel
+      value: 
+      objectReference: {fileID: 2058453210910620702}
+    - target: {fileID: 8438366858050283140, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 7418709286406462950}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5885106867128739669, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 139641662870366741}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
 --- !u!1 &2058453210910620702 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 68045417639968492, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
   m_PrefabInstance: {fileID: 2044817541709366002}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5606065899455423911 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5885106867128739669, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
-  m_PrefabInstance: {fileID: 2044817541709366002}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &139641662870366741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5606065899455423911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec35c43d57ae2eb438ebee54d0321be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconPanel: {fileID: 0}
-  balloonPanel: {fileID: 2058453210910620702}
-  dialogueText: {fileID: 7418709286406462950}
-  balloonRoot: {fileID: 2058453210910620702}
-  recipeText: {fileID: 7418709286406462950}
 --- !u!114 &7418709286406462950 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8832731439774899988, guid: 089847b0a99bc3b4fbb3696d58e79278, type: 3}
