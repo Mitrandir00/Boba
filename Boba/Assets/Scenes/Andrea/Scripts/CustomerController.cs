@@ -21,6 +21,8 @@ public class CustomerController : MonoBehaviour
     public Transform waitPoint;
     public Transform exitPoint;
 
+    [Header("Ritardo Pensiero")]
+    public float thinkingTime = 0.1f; // Il cliente aspetta 0.5 secondi prima di parlare
     // =========================
     // RANGE MODIFICABILI SOLO DA CODICE
     // =========================
@@ -170,12 +172,24 @@ public class CustomerController : MonoBehaviour
     {
         state = State.Waiting;
         waitTimer = 0f;
+       StartCoroutine(ThinkingRoutine());
+    }
+
+    private IEnumerator ThinkingRoutine()
+    {
+        // Aspetta i secondi che hai deciso
+        yield return new WaitForSeconds(thinkingTime);
+
+        // ORA fa apparire il balloon con il testo
         OnReadyToOrder?.Invoke();
     }
 
     private void HandleWaiting()
     {
         if (state != State.Waiting) return;
+        
+        // SE è modalità storia, saltiamo il timer di uscita
+        if (GameSettings.IsStoryMode) return;
 
         waitTimer += Time.deltaTime;
 

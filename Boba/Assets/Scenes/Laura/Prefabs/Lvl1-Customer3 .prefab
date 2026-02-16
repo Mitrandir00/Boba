@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2226119072852414696
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4533693093494589086, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 530.28784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 593.95044
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: m_Name
+      value: 'Lvl1-Customer3 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868724971920214771, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: storyRecipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bda7266249606945bcbe8a3870afaaa, type: 2}
+    - target: {fileID: 6868724971920214771, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      propertyPath: storyDialogue
+      value: Do you know what cats like? MILK
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 360075541238016183}
+  m_SourcePrefab: {fileID: 100100000, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+--- !u!1 &2309830222833522294 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4533693093494589086, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+  m_PrefabInstance: {fileID: 2226119072852414696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5713055835039250365 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5885106867128739669, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+  m_PrefabInstance: {fileID: 2226119072852414696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &360075541238016183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713055835039250365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec35c43d57ae2eb438ebee54d0321be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconPanel: {fileID: 0}
+  balloonPanel: {fileID: 2309830222833522294}
+  dialogueText: {fileID: 7224472445807913913}
+  balloonRoot: {fileID: 2309830222833522294}
+  recipeText: {fileID: 7224472445807913913}
+--- !u!114 &7224472445807913913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8837954629777849169, guid: 67cccd0b474739f4c8d8876904066683, type: 3}
+  m_PrefabInstance: {fileID: 2226119072852414696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

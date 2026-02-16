@@ -113,6 +113,26 @@ public class MenuManager : MonoBehaviour
     // QUESTA È QUELLA CHE APRE IL LOGIN
     public void OpenStoryMenu() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(true); }
     
-    public void StartStoryLevel(int i) { SceneManager.LoadScene("Main"); }
-    public void StartInfiniteMode() { SceneManager.LoadScene("Main"); }
+    public void StartStoryLevel(int levelIndex) 
+    { 
+        // 1. Impostiamo la modalità storia
+        GameSettings.IsStoryMode = true;
+        
+        // 2. Salviamo quale livello vogliamo (1, 2 o 3)
+        GameSettings.SelectedLevel = levelIndex;
+
+        // 3. Carichiamo la scena di gioco (assicurati si chiami "Main" o come la tua scena di gioco)
+        SceneManager.LoadScene("Main"); 
+    }
+    public void StartInfiniteMode() 
+    { 
+        // 1. Disattiviamo la modalità storia
+        GameSettings.IsStoryMode = false;
+        
+        // 2. Reset del livello
+        GameSettings.SelectedLevel = 0;
+
+        // 3. Carica la scena
+        SceneManager.LoadScene("Main"); 
+    }
 }

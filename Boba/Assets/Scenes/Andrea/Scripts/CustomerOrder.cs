@@ -5,15 +5,22 @@ using System.Collections.Generic;
 
 public class CustomerOrder : MonoBehaviour
 {
-    [Header("Data")]
-    [SerializeField] public BobaDatabase database;
-    public BobaRecipe requestedRecipe { get; private set; }
-
-    [Header("UI Hook")]
+    [Header("Impostazioni Generali")]
+    public BobaDatabase database;
     [SerializeField] public CustomerOrderUI orderUI;
-
-    [Header("Indicator (quadrato/nuvoletta sopra la testa)")]
     [SerializeField] private CustomerOrderIndicator indicator;
+
+    [Header("--- SOLO PER MODALITÀ STORIA ---")]
+    [Tooltip("Trascina qui la ricetta specifica che questo cliente deve ordinare")]
+    public BobaRecipe storyRecipe; 
+
+    [TextArea(3, 5)]
+    [Tooltip("Scrivi qui la frase che apparirà nel balloon")]
+    public string storyDialogue; 
+    // ------------------------------------
+
+    // La ricetta che il gioco userà effettivamente
+    public BobaRecipe requestedRecipe { get; private set; }
 
     [Header("Eventi")]
     public UnityEngine.Events.UnityEvent OnCorrectDrink;
@@ -21,18 +28,7 @@ public class CustomerOrder : MonoBehaviour
 
     void Awake()
     {
-        // Fallback automatici per non scordare gli slot
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
-
-        // ⚠️ BobaDatabase è un ScriptableObject, quindi FindFirstObjectByType NON lo trova.
-        // Ti conviene assegnarlo da Inspector.
-        // Se vuoi un fallback, usa una reference via inspector o un manager.
-        // Qui lascio il tuo comportamento ma con un warning più chiaro:
-        if (!database)
-        {
-            Debug.LogWarning("[CustomerOrder] Database non assegnato! Trascina BobaDatabase nell'Inspector.");
-        }
-
         if (!indicator) indicator = GetComponentInChildren<CustomerOrderIndicator>(true);
     }
 
@@ -41,45 +37,51 @@ public class CustomerOrder : MonoBehaviour
     /// </summary>
     public void PickAndShowOrder()
     {
-        requestedRecipe = database ? database.GetRandom() : null;
+        // 1. SELEZIONE DELLA RICETTA
+        if (GameSettings.IsStoryMode && storyRecipe != null)
+        {
+            // Se siamo nella storia e hai impostato una ricetta specifica, usa quella
+            requestedRecipe = storyRecipe;
+        }
+        else
+        {
+            // Altrimenti (infinita o se non hai messo nulla) ne pesca una a caso
+            requestedRecipe = database ? database.GetRandom() : null;
+        }
+
         if (requestedRecipe == null)
         {
-            Debug.LogWarning("[CustomerOrder] Nessuna ricetta trovata nel database!");
+            Debug.LogWarning($"[CustomerOrder] Nessuna ricetta trovata per {gameObject.name}!");
             return;
         }
 
-        // ✅ ACCENDE L’INDICATORE (oggi quadrato colorato, domani sprite nuvoletta)
-        if (indicator) indicator.Show(requestedRecipe);
+        // 2. VISUALIZZAZIONE (Balloon vs Icona)
+        if (GameSettings.IsStoryMode)
+        {
+            // Nascondi l'icona sopra la testa
+            if (indicator) indicator.Hide();
 
-        // Debug utile in console
-        var sb = new StringBuilder();
-        sb.AppendLine($"Cliente vuole: {requestedRecipe.displayName} ({requestedRecipe.id})");
-        foreach (var s in requestedRecipe.ingredients)
-            sb.AppendLine($"- {s.ingredient} ({s.amount})");
-        Debug.Log(sb.ToString());
+            // Scegli il testo: usa quello personalizzato se c'è, altrimenti un fallback
+            string textToShow = !string.IsNullOrEmpty(storyDialogue) 
+                                ? storyDialogue 
+                                : "Vorrei un " + requestedRecipe.displayName;
 
-        // Balloon/ordine (se già lo usi)
-        if (orderUI) orderUI.ShowOrder(requestedRecipe);
+            // Mostra il balloon
+            if (orderUI) orderUI.ShowTextOrder(textToShow);
+        }
+        else
+        {
+            // Modalità infinita: mostra l'icona
+            if (indicator) indicator.Show(requestedRecipe);
+            if (orderUI) orderUI.ShowVisualOrder(requestedRecipe);
+        }
     }
-
-    /// <summary>
-    /// Confronto "esatto" di ricette: stessi ingredienti e stesse quantità (ordine indipendente).
-    /// </summary>
+    // --- Logica di confronto e consegna (rimane uguale) ---
     public bool Matches(BobaRecipe delivered)
     {
         if (requestedRecipe == null || delivered == null) return false;
-
-        var req = Normalize(requestedRecipe.ingredients);
-        var del = Normalize(delivered.ingredients);
-
-        if (req.Count != del.Count) return false;
-
-        for (int i = 0; i < req.Count; i++)
-        {
-            if (req[i].ingredient != del[i].ingredient) return false;
-            if (req[i].amount != del[i].amount) return false;
-        }
-        return true;
+        var rep = RecipeComparer.Compare(requestedRecipe, delivered);
+        return rep.isExactMatch;
     }
 
     private List<IngredientSpec> Normalize(List<IngredientSpec> slots)
@@ -98,11 +100,8 @@ public class CustomerOrder : MonoBehaviour
 
     public void ReceiveDrink(BobaRecipe delivered)
     {
-        var report = RecipeComparer.Compare(requestedRecipe, delivered);
-        if (report.isExactMatch)
-            OnCorrectDrink?.Invoke();
-        else
-            OnWrongDrink?.Invoke();
+        if (Matches(delivered)) OnCorrectDrink?.Invoke();
+        else OnWrongDrink?.Invoke();
     }
 
     /// <summary>

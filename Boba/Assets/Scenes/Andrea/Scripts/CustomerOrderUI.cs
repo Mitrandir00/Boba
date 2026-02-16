@@ -4,9 +4,39 @@ using System.Text;
 
 public class CustomerOrderUI : MonoBehaviour
 {
+    [Header("Modalità Infinita (Icone)")]
+    public GameObject iconPanel;
+    // Qui potresti avere riferimenti alle immagini degli ingredienti se le mostri nella UI
+
+    [Header("Modalità Storia (Balloon)")]
+    public GameObject balloonPanel;
+    public TextMeshProUGUI dialogueText; // Trascina qui il testo del balloon
+
     [Header("Balloon / UI")]
     [SerializeField] private GameObject balloonRoot;        
     [SerializeField] private TextMeshProUGUI recipeText;
+
+
+    public void ShowVisualOrder(BobaRecipe recipe)
+    {
+        // Attiva icona, disattiva balloon
+        if(iconPanel) iconPanel.SetActive(true);
+        if(balloonPanel) balloonPanel.SetActive(false);
+
+        // Qui puoi aggiungere logica per mostrare gli ingredienti graficamente se serve
+        // Per ora ci affidiamo al "CustomerOrderIndicator" (il quadrato sopra la testa)
+    }
+    public void ShowTextOrder(string text)
+    {
+        // Disattiva icona, attiva balloon
+        if(iconPanel) iconPanel.SetActive(false);
+        if(balloonPanel) balloonPanel.SetActive(true);
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = text;
+        }
+    }
 
     void Awake()
     {
@@ -53,7 +83,14 @@ public class CustomerOrderUI : MonoBehaviour
     }
     public void Hide()
     {
-        balloonRoot.SetActive(false);
-        if (recipeText) recipeText.text = "";
+        if(iconPanel) iconPanel.SetActive(false);
+        if(balloonPanel) balloonPanel.SetActive(false);
+    }
+    // AGGIUNGI QUESTO:
+    // Quando il cliente (il padre) viene distrutto, Unity chiama questo metodo.
+    // Noi forziamo la disattivazione dei pannelli.
+    private void OnDestroy()
+    {
+        Hide();
     }
 }
