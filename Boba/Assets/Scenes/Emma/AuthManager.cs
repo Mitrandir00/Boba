@@ -42,7 +42,7 @@ public class AuthManager : MonoBehaviour
         // Controllo se i campi sono vuoti
         if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
         {
-            messageText.text = "Inserisci nome e password!";
+            messageText.text = "Insert name and password!";
             messageText.color = Color.red;
             return;
         }
@@ -50,7 +50,7 @@ public class AuthManager : MonoBehaviour
         // Controllo se esiste già
         if (PlayerPrefs.HasKey("Account_" + user))
         {
-            messageText.text = "Nome utente già esistente!";
+            messageText.text = "Username already exists!";
             messageText.color = Color.red;
             return;
         }
@@ -59,7 +59,7 @@ public class AuthManager : MonoBehaviour
         PlayerPrefs.SetString("Account_" + user, pass);
         PlayerPrefs.Save();
 
-        messageText.text = "Registrato con successo! Ora clicca Login.";
+        messageText.text = "Registered successfully! Now click Login.";
         messageText.color = Color.green;
     }
 
@@ -72,7 +72,7 @@ public class AuthManager : MonoBehaviour
         // 1. L'utente esiste?
         if (!PlayerPrefs.HasKey("Account_" + user))
         {
-            messageText.text = "Utente non trovato. Registrati prima!";
+            messageText.text = "User not found. Register first!";
             messageText.color = Color.red;
             return;
         }
@@ -83,7 +83,7 @@ public class AuthManager : MonoBehaviour
         if (savedPass == pass)
         {
             // PASSWORD GIUSTA!
-            messageText.text = "Benvenuto " + user + "...";
+            messageText.text = "Welcome " + user + "...";
             messageText.color = Color.green;
 
             // Salviamo chi è l'utente attuale (per i soldi)
@@ -96,7 +96,7 @@ public class AuthManager : MonoBehaviour
         else
         {
             // PASSWORD SBAGLIATA
-            messageText.text = "Password Errata!";
+            messageText.text = "Wrong Password!";
             messageText.color = Color.red;
         }
     }

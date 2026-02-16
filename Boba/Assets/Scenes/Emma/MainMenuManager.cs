@@ -59,7 +59,7 @@ public class MenuManager : MonoBehaviour
         {
             // === UTENTE LOGGATO ===
             string user = PlayerPrefs.GetString("CurrentUser");
-            ShowFeedback("Bentornato " + user + "!");
+            ShowFeedback("Welcome back " + user + "!");
 
             // 1. NASCONDI IL BOTTONE CHE APRE IL MENU (Quello nella Home)
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(false);
@@ -70,7 +70,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             // === NESSUNO LOGGATO ===
-            ShowFeedback("Effettua l'accesso per giocare.");
+            ShowFeedback("Log in to play.");
 
             // 1. MOSTRA IL BOTTONE CHE APRE IL MENU
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(true);
@@ -84,7 +84,7 @@ public class MenuManager : MonoBehaviour
         string u = usernameInput.text;
         string p = passwordInput.text;
 
-        if (!PlayerPrefs.HasKey(u)) { ShowFeedback("Utente non trovato!"); return; }
+        if (!PlayerPrefs.HasKey(u)) { ShowFeedback("User not found!"); return; }
 
         if (PlayerPrefs.GetString(u) == p)
         {
@@ -97,7 +97,7 @@ public class MenuManager : MonoBehaviour
             // Aggiorniamo la Home (farà sparire il pulsante di apertura)
             CheckLoginStatus(); 
         }
-        else { ShowFeedback("Password errata!"); }
+        else { ShowFeedback("Wrong Password!"); }
     }
 
     public void OnRegisterClick()
@@ -105,13 +105,13 @@ public class MenuManager : MonoBehaviour
         string u = usernameInput.text;
         string p = passwordInput.text;
 
-        if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p)) { ShowFeedback("Dati mancanti!"); return; }
+        if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p)) { ShowFeedback("Missing credentials!"); return; }
         
-        if (PlayerPrefs.HasKey(u)) { ShowFeedback("Utente esiste già!"); }
+        if (PlayerPrefs.HasKey(u)) { ShowFeedback("User already exists!"); }
         else 
         { 
             PlayerPrefs.SetString(u, p); 
-            ShowFeedback("Registrato! Ora clicca Accedi."); 
+            ShowFeedback("Registered! Now click Log In."); 
         }
     }
 

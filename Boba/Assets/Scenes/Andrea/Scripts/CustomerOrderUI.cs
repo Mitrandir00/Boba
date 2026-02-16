@@ -72,7 +72,7 @@ public class CustomerOrderUI : MonoBehaviour
     public void ShowYesNo(bool correct)
     {
         if (!recipeText) return;
-        recipeText.text = correct ? "SI" : "NO";
+        recipeText.text = correct ? "YEAHHH" : "NOPE";
         balloonRoot.SetActive(true);
     }
 
