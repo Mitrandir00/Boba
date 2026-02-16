@@ -60,10 +60,18 @@ public class PauseManager : MonoBehaviour
     }
 
     //FUNZIONE 4: esce dal gioco
-    public void QuitGame()
-    {
-        Debug.Log("Hai premuto Esci! Il gioco si sta chiudendo...");
-        Application.Quit();
+    public void QuitGame() 
+    { 
+        // 1. Aggiungi un Log per essere sicuro che il bottone sia collegato
+        Debug.Log("Sto chiudendo il gioco...");
+
+        #if UNITY_EDITOR
+            // Se siamo nell'Editor, ferma la modalità Play
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Se siamo nel gioco vero (Build), chiude l'applicazione
+            Application.Quit();
+        #endif
     }
 
     // FUNZIONE 5: Riavvia il livello corrente

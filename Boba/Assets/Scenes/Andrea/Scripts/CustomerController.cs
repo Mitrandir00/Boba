@@ -126,6 +126,17 @@ public class CustomerController : MonoBehaviour
     // =========================
     public void ApplyTuning(float speedT, float waitT)
     {
+        // --- MODIFICA: BLOCCO VELOCITÀ PER STORIA ---
+        if (GameSettings.IsStoryMode)
+        {
+            // Se siamo nella storia, forziamo i valori più facili/lenti
+            moveSpeed = MIN_MOVE_SPEED;       // Velocità base (2.5f)
+            maxWaitSeconds = MAX_WAIT_SECONDS;  // Pazienza massima (14s)
+            return; // Esci subito, ignorando il resto
+        }
+        // --------------------------------------------
+
+        // Comportamento normale per la modalità infinita
         speedT = Mathf.Clamp01(speedT);
         waitT = Mathf.Clamp01(waitT);
 
