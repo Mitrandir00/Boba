@@ -106,6 +106,6 @@ public class EconomyManager : MonoBehaviour
     private void UpdateUI()
     {
         if (coinText != null)
-            coinText.text = "Monete: " + currentCoins.ToString();
+            coinText.text = currentCoins.ToString() + "$";
     }
 }
