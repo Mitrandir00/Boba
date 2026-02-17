@@ -10,8 +10,8 @@ public class PauseManager : MonoBehaviour
     [Header("Oggetti Audio")]
     public AudioSource backgroundMusic;
 
-    [Header("Logout")] // <--- NUOVO: Aggiungi questo header
-    public GameObject logoutButton; // <--- NUOVO: La variabile per il bottone
+    [Header("Logout")] 
+    public GameObject logoutButton; 
 
     private bool isPaused = false;
 
