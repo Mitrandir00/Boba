@@ -6,7 +6,7 @@ public class DraggableDrink : MonoBehaviour
     public DrinkBuilder builder; // Riferimento per sapere CHE COSA stiamo consegnando
     
     private Vector3 startPosition;
-    private bool isDragging = false;
+
 
     // Quando l'oggetto si attiva (dopo lo Shaker), salviamo la posizione iniziale
     void OnEnable()
@@ -14,10 +14,6 @@ public class DraggableDrink : MonoBehaviour
         startPosition = transform.position;
     }
 
-    void OnMouseDown()
-    {
-        isDragging = true;
-    }
 
     void OnMouseDrag()
     {
@@ -29,7 +25,6 @@ public class DraggableDrink : MonoBehaviour
 
     void OnMouseUp()
     {
-        isDragging = false;
         CheckDrop();
     }
 

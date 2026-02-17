@@ -103,4 +103,15 @@ public class PauseManager : MonoBehaviour
         // 3. Ricarica la scena del Menu Principale per resettare tutto (e mostrare il Login)
         SceneManager.LoadScene("MainMenu");
     }
+    void Update()
+    {
+        // Esempio: Se premo ESC, inverte lo stato
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused) 
+                ResumeGame();
+            else 
+                PauseGame();
+        }
+    }
 }
