@@ -4,9 +4,35 @@ using System.Text;
 
 public class CustomerOrderUI : MonoBehaviour
 {
+    [Header("Modalità Infinita (Icone)")]
+    public GameObject iconPanel;
+
+    [Header("Modalità Storia (Balloon)")]
+    public GameObject balloonPanel;
+    public TextMeshProUGUI dialogueText; 
+
     [Header("Balloon / UI")]
     [SerializeField] private GameObject balloonRoot;        
     [SerializeField] private TextMeshProUGUI recipeText;
+
+
+    public void ShowVisualOrder(BobaRecipe recipe)
+    {
+        // Attiva icona, disattiva balloon
+        if(iconPanel) iconPanel.SetActive(true);
+        if(balloonPanel) balloonPanel.SetActive(false);
+    }
+    public void ShowTextOrder(string text)
+    {
+        // Disattiva icona, attiva balloon
+        if(iconPanel) iconPanel.SetActive(false);
+        if(balloonPanel) balloonPanel.SetActive(true);
+
+        if (dialogueText != null)
+        {
+            dialogueText.text = text;
+        }
+    }
 
     void Awake()
     {
@@ -36,13 +62,10 @@ public class CustomerOrderUI : MonoBehaviour
         balloonRoot.SetActive(true);
     }
 
-    /// <summary>
-    /// Mostra "SI" o "NO" nel balloon.
-    /// </summary>
     public void ShowYesNo(bool correct)
     {
         if (!recipeText) return;
-        recipeText.text = correct ? "SI" : "NO";
+        recipeText.text = correct ? "YEAHHH" : "NOPE";
         balloonRoot.SetActive(true);
     }
 
@@ -53,7 +76,13 @@ public class CustomerOrderUI : MonoBehaviour
     }
     public void Hide()
     {
-        balloonRoot.SetActive(false);
-        if (recipeText) recipeText.text = "";
+        if(iconPanel) iconPanel.SetActive(false);
+        if(balloonPanel) balloonPanel.SetActive(false);
+    }
+    
+    // Quando il cliente (il padre) viene distrutto, Unity chiama questo metodo.
+    private void OnDestroy()
+    {
+        Hide();
     }
 }

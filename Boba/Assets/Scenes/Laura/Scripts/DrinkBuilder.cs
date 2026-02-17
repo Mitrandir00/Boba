@@ -16,15 +16,15 @@ public class DrinkBuilder : MonoBehaviour
     public Sprite icon; // Icona generica di default
 
     [Header("Database Ricette")]
-    public BobaDatabase database; // TRASCINA QUI IL TUO BobaDatabase
+    public BobaDatabase database; 
 
     [Header("Visualizzazione - Slot Ingredienti")]
     public List<SpriteRenderer> visualSlots; 
     public List<IngredientVisualEntry> visualConfig;
 
     [Header("Visualizzazione - Risultato Finale")]
-    public SpriteRenderer finalDrinkRenderer; // TRASCINA QUI IL NUOVO OGGETTO "FinalDrink"
-    public Sprite undefinedDrinkSprite;       // TRASCINA QUI LO SPRITE "SBOBBA/ERRORE"
+    public SpriteRenderer finalDrinkRenderer; 
+    public Sprite undefinedDrinkSprite;       
 
     [Header("Eventi")]
     public UnityEvent<BobaRecipe> OnBuilt; 
@@ -79,12 +79,11 @@ public class DrinkBuilder : MonoBehaviour
         {
             foreach (var recipe in database.allRecipes)
             {
-                // Usiamo il tuo RecipeComparer già esistente nel progetto
                 var report = RecipeComparer.Compare(recipe, currentRecipe);
                 if (report.isExactMatch)
                 {
                     foundMatch = recipe;
-                    break; // Trovata!
+                    break; 
                 }
             }
         }
@@ -162,7 +161,6 @@ public class DrinkBuilder : MonoBehaviour
         r.icon = icon;
         foreach (var ing in _addedIngredients)
         {
-            // Nota: Usiamo level 2 (Normal) come standard per il confronto
             r.ingredients.Add(new IngredientSpec { ingredient = ing, amount = 2 });
         }
         return r;

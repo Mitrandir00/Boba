@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7029201616891736402
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: recipeText
+      value: 
+      objectReference: {fileID: 3790265720129150649}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: balloonRoot
+      value: 
+      objectReference: {fileID: 8059270892052012896}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: balloonPanel
+      value: 
+      objectReference: {fileID: 8059270892052012896}
+    - target: {fileID: -5948206515212431134, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 3790265720129150649}
+    - target: {fileID: 1032720204675231282, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4599316684999844000, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: thinkingTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5641408076611406115, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5885106867128739669, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: m_Name
+      value: Lvl1-Customer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868724971920214771, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: storyRecipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 5271ed1763903654f9523f240d61929f, type: 2}
+    - target: {fileID: 6868724971920214771, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+      propertyPath: storyDialogue
+      value: Meow, I don't know how I ended up in this box but I'm craving something
+        with lemon
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+--- !u!114 &3790265720129150649 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6130814404461965291, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+  m_PrefabInstance: {fileID: 7029201616891736402}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8059270892052012896 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1032720204675231282, guid: 98c696275cfe6c64c8cad5715713391c, type: 3}
+  m_PrefabInstance: {fileID: 7029201616891736402}
+  m_PrefabAsset: {fileID: 0}

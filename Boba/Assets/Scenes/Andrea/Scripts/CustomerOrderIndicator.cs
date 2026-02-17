@@ -14,11 +14,9 @@ public class CustomerOrderIndicator : MonoBehaviour
     {
         if (!sr || recipe == null) return;
 
-        // Se in futuro la tua amica mette la nuvoletta in recipe.icon, qui la useremo
         if (recipe.icon != null)
             sr.sprite = recipe.icon;
 
-        // Oggi: quadrato bianco + colore
         sr.color = recipe.indicatorColor;
 
         sr.enabled = true;

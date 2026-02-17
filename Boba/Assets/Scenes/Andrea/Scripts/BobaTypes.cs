@@ -5,7 +5,7 @@ public enum Ingredient
 {
     // Topping
     Tapioca,
-    Mango,
+    Mirtillo,
     Fragola,
     Pesca,
     Limone,
@@ -16,7 +16,7 @@ public enum Ingredient
     Latte,
 
     // Altro
-    SciroppoMango,
+    SciroppoMirtillo,
     SciroppoFragola,
     SciroppoPesca,
     SciroppoLimone,

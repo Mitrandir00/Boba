@@ -10,8 +10,8 @@ public class PauseManager : MonoBehaviour
     [Header("Oggetti Audio")]
     public AudioSource backgroundMusic;
 
-    [Header("Logout")] // <--- NUOVO: Aggiungi questo header
-    public GameObject logoutButton; // <--- NUOVO: La variabile per il bottone
+    [Header("Logout")] 
+    public GameObject logoutButton; 
 
     private bool isPaused = false;
 
@@ -60,10 +60,18 @@ public class PauseManager : MonoBehaviour
     }
 
     //FUNZIONE 4: esce dal gioco
-    public void QuitGame()
-    {
-        Debug.Log("Hai premuto Esci! Il gioco si sta chiudendo...");
-        Application.Quit();
+    public void QuitGame() 
+    { 
+        // 1. Aggiungi un Log per essere sicuro che il bottone sia collegato
+        Debug.Log("Sto chiudendo il gioco...");
+
+        #if UNITY_EDITOR
+            // Se siamo nell'Editor, ferma la modalità Play
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Se siamo nel gioco vero (Build), chiude l'applicazione
+            Application.Quit();
+        #endif
     }
 
     // FUNZIONE 5: Riavvia il livello corrente
@@ -94,5 +102,16 @@ public class PauseManager : MonoBehaviour
 
         // 3. Ricarica la scena del Menu Principale per resettare tutto (e mostrare il Login)
         SceneManager.LoadScene("MainMenu");
+    }
+    void Update()
+    {
+        // Esempio: Se premo ESC, inverte lo stato
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused) 
+                ResumeGame();
+            else 
+                PauseGame();
+        }
     }
 }

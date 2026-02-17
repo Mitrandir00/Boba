@@ -16,16 +16,31 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI feedbackText;
 
     [Header("Bottoni INTERNI al Pannello (NON SPARISCONO)")]
-    public GameObject loginButton;     // Il tasto "Conferma Login" dentro il pannello
-    public GameObject registerButton;  // Il tasto "Conferma Registrazione" dentro il pannello
+    public GameObject loginButton;     
+    public GameObject registerButton; 
 
     [Header("Bottoni HOMEPAGE (QUESTI SPARISCONO)")]
-    public GameObject pulsanteApriLogin; // <--- NUOVO! Il bottone nella Home che APRE il menu login
-       // Il bottone Gioca
+    public GameObject pulsanteApriLogin;
+       
 
     void Start()
     {
-        ShowMainMenu();
+        // 1. Controlla se dobbiamo aprire direttamente la selezione livelli
+        if (PlayerPrefs.GetInt("OpenLevelSelect", 0) == 1)
+        {
+            // Resetta il messaggio (così non lo fa sempre)
+            PlayerPrefs.SetInt("OpenLevelSelect", 0);
+            
+            // Apri direttamente il menu storia
+            if(mainMenuPanel) mainMenuPanel.SetActive(false);
+            if(storyMenuPanel) storyMenuPanel.SetActive(true);
+        }
+        else
+        {
+            // Comportamento normale (Home Page)
+            ShowMainMenu();
+        }
+
         CheckLoginStatus();
     }
 
@@ -37,39 +52,37 @@ public class MenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) { PlayerPrefs.DeleteAll(); SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
     }
 
-    // --- CONTROLLO VISIBILITÀ ---
+    //CONTROLLO VISIBILITÀ 
     public void CheckLoginStatus()
     {
         if (PlayerPrefs.HasKey("CurrentUser"))
         {
-            // === UTENTE LOGGATO ===
+            //UTENTE LOGGATO 
             string user = PlayerPrefs.GetString("CurrentUser");
-            ShowFeedback("Bentornato " + user + "!");
+            ShowFeedback("Welcome back " + user + "!");
 
-            // 1. NASCONDI IL BOTTONE CHE APRE IL MENU (Quello nella Home)
+            //NASCONDI IL BOTTONE CHE APRE IL MENU (Quello nella Home)
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(false);
 
-
-            // NOTA: I tasti loginButton e registerButton NON vengono toccati, restano attivi!
         }
         else
         {
-            // === NESSUNO LOGGATO ===
-            ShowFeedback("Effettua l'accesso per giocare.");
+            //NESSUNO LOGGATO
+            ShowFeedback("Log in to play.");
 
-            // 1. MOSTRA IL BOTTONE CHE APRE IL MENU
+            // MOSTRA IL BOTTONE CHE APRE IL MENU
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(true);
 
         }
     }
 
-    // --- LOGICA DI ACCESSO ---
+    // LOGICA DI ACCESSO
     public void OnLoginClick()
     {
         string u = usernameInput.text;
         string p = passwordInput.text;
 
-        if (!PlayerPrefs.HasKey(u)) { ShowFeedback("Utente non trovato!"); return; }
+        if (!PlayerPrefs.HasKey(u)) { ShowFeedback("User not found!"); return; }
 
         if (PlayerPrefs.GetString(u) == p)
         {
@@ -82,7 +95,7 @@ public class MenuManager : MonoBehaviour
             // Aggiorniamo la Home (farà sparire il pulsante di apertura)
             CheckLoginStatus(); 
         }
-        else { ShowFeedback("Password errata!"); }
+        else { ShowFeedback("Wrong Password!"); }
     }
 
     public void OnRegisterClick()
@@ -90,29 +103,60 @@ public class MenuManager : MonoBehaviour
         string u = usernameInput.text;
         string p = passwordInput.text;
 
-        if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p)) { ShowFeedback("Dati mancanti!"); return; }
+        if (string.IsNullOrEmpty(u) || string.IsNullOrEmpty(p)) { ShowFeedback("Missing credentials!"); return; }
         
-        if (PlayerPrefs.HasKey(u)) { ShowFeedback("Utente esiste già!"); }
+        if (PlayerPrefs.HasKey(u)) { ShowFeedback("User already exists!"); }
         else 
         { 
             PlayerPrefs.SetString(u, p); 
-            ShowFeedback("Registrato! Ora clicca Accedi."); 
+            ShowFeedback("Registered! Now click Log In."); 
         }
     }
 
-    // --- NAVIGAZIONE ---
+    //NAVIGAZIONE
     void ShowFeedback(string msg) { Debug.Log(msg); if (feedbackText != null) feedbackText.text = msg; }
     public void ShowMainMenu() { mainMenuPanel.SetActive(true); if(optionsPanel) optionsPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(false); }
     public void BackToMainMenu() { ShowMainMenu(); }
     private void HandleBackButton() { if (optionsPanel != null && optionsPanel.activeSelf) BackToMainMenu(); else QuitGame(); }
-    public void QuitGame() { Application.Quit(); }
+    public void QuitGame() 
+    { 
+        //Aggiungi un Log per essere sicuro che il bottone sia collegato
+        Debug.Log("Sto chiudendo il gioco...");
+
+        #if UNITY_EDITOR
+            // Se siamo nell'Editor, ferma la modalità Play
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            // Se siamo nel gioco vero (Build), chiude l'applicazione
+            Application.Quit();
+        #endif
+    }
     
     // Funzioni per aprire i pannelli
     public void OpenOptions() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(optionsPanel) optionsPanel.SetActive(true); }
     
-    // QUESTA È QUELLA CHE APRE IL LOGIN
     public void OpenStoryMenu() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(true); }
     
-    public void StartStoryLevel(int i) { SceneManager.LoadScene("Main"); }
-    public void StartInfiniteMode() { SceneManager.LoadScene("Main"); }
+    public void StartStoryLevel(int levelIndex) 
+    { 
+        // 1. Impostiamo la modalità storia
+        GameSettings.IsStoryMode = true;
+        
+        // 2. Salviamo quale livello vogliamo (1, 2 o 3)
+        GameSettings.SelectedLevel = levelIndex;
+
+        // 3. Carichiamo la scena di gioco 
+        SceneManager.LoadScene("Main"); 
+    }
+    public void StartInfiniteMode() 
+    { 
+        // 1. Disattiviamo la modalità storia
+        GameSettings.IsStoryMode = false;
+        
+        // 2. Reset del livello
+        GameSettings.SelectedLevel = 0;
+
+        // 3. Carica la scena
+        SceneManager.LoadScene("Main"); 
+    }
 }

@@ -11,9 +11,8 @@ public static class RecipeComparer
         public Dictionary<Ingredient, (int expected, int got)> wrongAmount; // giusto ingrediente ma livello diverso
     }
 
-    /// <summary>
-    /// Confronta due BobaRecipe: expected = richiesto dal cliente, given = consegnato.
-    /// </summary>
+
+    // Confronta due BobaRecipe: expected = richiesto dal cliente, given = consegnato.
     public static Report Compare(BobaRecipe expected, BobaRecipe given)
     {
         var rep = new Report
@@ -29,7 +28,6 @@ public static class RecipeComparer
             return rep;
         }
 
-        // Canonicalizza in dizionari (Ingredient -> amount)
         var exp = Canon(expected);
         var got = Canon(given);
 
@@ -62,7 +60,7 @@ public static class RecipeComparer
         foreach (var s in r.ingredients)
         {
             if (!dict.ContainsKey(s.ingredient)) dict[s.ingredient] = 0;
-            // Se in futuro avrai duplicati, qui li sommi. Con i livelli 0..3 alla fine prendi l'ultimo/il max:
+            
             dict[s.ingredient] = Mathf.Clamp(Mathf.Max(dict[s.ingredient], s.amount), 0, 3);
         }
         return dict;
