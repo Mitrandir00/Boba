@@ -4,9 +4,7 @@ using System.Collections;
 
 public class CustomerController : MonoBehaviour
 {
-    // =========================
-    // VISUAL / ESPRESSIONI
-    // =========================
+    //Espressioni clienti
     [Header("Visual Feedback (Varianti Espressioni)")]
     [SerializeField] private SpriteRenderer faceSR;
 
@@ -14,27 +12,23 @@ public class CustomerController : MonoBehaviour
     [SerializeField] private Sprite[] happySprites;
     [SerializeField] private Sprite[] sadSprites;
 
-    // =========================
-    // WAYPOINTS (assegnati dallo spawner)
-    // =========================
+    //waypoints dei clienti
     [Header("Waypoints")]
     public Transform waitPoint;
     public Transform exitPoint;
 
+    //tempo di apparizzione balloon nella modalitá storia
     [Header("Ritardo Pensiero")]
-    public float thinkingTime = 0.1f; // Il cliente aspetta 0.5 secondi prima di parlare
-    // =========================
-    // RANGE MODIFICABILI SOLO DA CODICE
-    // =========================
+    public float thinkingTime = 0.1f; 
+    
+    
     private const float MIN_MOVE_SPEED = 2.5f;
     private const float MAX_MOVE_SPEED = 12.0f;
 
     private const float MIN_WAIT_SECONDS = 2.0f;
     private const float MAX_WAIT_SECONDS = 14.0f;
 
-    // =========================
-    // VALORI RUNTIME (calcolati dagli slider)
-    // =========================
+    
     [Header("Runtime (read-only)")]
     [SerializeField] private float moveSpeed = MIN_MOVE_SPEED;
     [SerializeField] private float maxWaitSeconds = MAX_WAIT_SECONDS;
@@ -42,42 +36,32 @@ public class CustomerController : MonoBehaviour
     [Header("Movimento")]
     [SerializeField] private float arriveThreshold = 0.01f;
 
-    // =========================
-    // SALTELLO DI ASSESTAMENTO
-    // =========================
+    //saltello dei clienti quando arrivano
     [Header("Saltello di assestamento (al waitPoint)")]
     [SerializeField] private bool enableSettleHop = true;
     [SerializeField] private float hopHeight = 0.30f;
     [SerializeField] private float hopUpTime = 0.05f;
     [SerializeField] private float hopDownTime = 0.010f;
 
-    // =========================
-    // EVENTI
-    // =========================
+    //eventi
     [Header("Eventi di stato")]
     public UnityEvent OnReadyToOrder;
     public UnityEvent OnWaitTimedOut;
 
-    [Header("Reazioni alla consegna (opzionali)")]
+    [Header("Reazioni alla consegna")]
     public UnityEvent OnOrderCorrect;
     public UnityEvent OnOrderWrong;
 
-    // =========================
-    // ORDINE & UI
-    // =========================
+    //ordine e UI
     [Header("Ordine & UI")]
     [SerializeField] private CustomerOrder order;
     [SerializeField] private CustomerOrderUI orderUI;
 
-    // =========================
-    // ECONOMIA
-    // =========================
+    //soldi iniziali 
     [Header("Economia")]
     public int rewardAmount = 20;
 
-    // =========================
-    // STATO
-    // =========================
+    //stato
     private enum State { Entering, Waiting, Exiting }
     private State state;
 
@@ -85,20 +69,16 @@ public class CustomerController : MonoBehaviour
     private float waitTimer;
     private bool settling;
 
-    // =========================
-    // CLIENTI SPECIALI
-    // =========================
-    private SpoiledCatNoPay spoiledCat; // se presente -> niente soldi
+    //clienti speciali
+    private SpoiledCatNoPay spoiledCat; // non paga il bubble tea
 
-    // =========================
     // UNITY LIFECYCLE
-    // =========================
     private void Awake()
     {
         if (!order) order = GetComponentInChildren<CustomerOrder>(true);
         if (!orderUI) orderUI = GetComponentInChildren<CustomerOrderUI>(true);
 
-        // cache cliente speciale (se sul prefab c'è)
+        // cache cliente speciale 
         spoiledCat = GetComponent<SpoiledCatNoPay>();
 
         // valori di default
@@ -121,20 +101,16 @@ public class CustomerController : MonoBehaviour
         HandleWaiting();
     }
 
-    // =========================
     // API PER LO SPAWNER (SLIDER 0..1)
-    // =========================
     public void ApplyTuning(float speedT, float waitT)
     {
-        // --- MODIFICA: BLOCCO VELOCITÀ PER STORIA ---
+        //se é la modalitá storia i clienti non aumentano velocitá
         if (GameSettings.IsStoryMode)
         {
-            // Se siamo nella storia, forziamo i valori più facili/lenti
             moveSpeed = MIN_MOVE_SPEED;       // Velocità base (2.5f)
             maxWaitSeconds = MAX_WAIT_SECONDS;  // Pazienza massima (14s)
-            return; // Esci subito, ignorando il resto
+            return; 
         }
-        // --------------------------------------------
 
         // Comportamento normale per la modalità infinita
         speedT = Mathf.Clamp01(speedT);
@@ -144,9 +120,7 @@ public class CustomerController : MonoBehaviour
         maxWaitSeconds = Mathf.Lerp(MAX_WAIT_SECONDS, MIN_WAIT_SECONDS, waitT);
     }
 
-    // =========================
     // MOVIMENTO
-    // =========================
     private void HandleMovement()
     {
         if ((state != State.Entering && state != State.Exiting) || settling) return;
@@ -176,9 +150,7 @@ public class CustomerController : MonoBehaviour
         EnterWaitingState();
     }
 
-    // =========================
     // ATTESA
-    // =========================
     private void EnterWaitingState()
     {
         state = State.Waiting;
@@ -199,7 +171,7 @@ public class CustomerController : MonoBehaviour
     {
         if (state != State.Waiting) return;
         
-        // SE è modalità storia, saltiamo il timer di uscita
+        // Se è modalità storia, saltiamo il timer di uscita
         if (GameSettings.IsStoryMode) return;
 
         waitTimer += Time.deltaTime;
@@ -213,18 +185,14 @@ public class CustomerController : MonoBehaviour
         BeginExit();
     }
 
-    // =========================
     // USCITA
-    // =========================
     private void BeginExit()
     {
         state = State.Exiting;
         target = exitPoint ? exitPoint.position : transform.position;
     }
 
-    // =========================
     // CONSEGNA
-    // =========================
     public void ReceiveDrink(BobaRecipe delivered)
     {
         if (state != State.Waiting || order == null) return;
@@ -238,7 +206,7 @@ public class CustomerController : MonoBehaviour
         {
             SetRandomSprite(happySprites);
 
-            // ✅ Se NON è un gatto viziato, paga
+            // Se NON è un gatto viziato, paga
             if (spoiledCat == null)
             {
                 if (EconomyManager.instance != null)
@@ -256,9 +224,8 @@ public class CustomerController : MonoBehaviour
         BeginExit();
     }
 
-    // =========================
+
     // SALTELLO
-    // =========================
     private IEnumerator SettleHop()
     {
         Vector3 basePos = transform.position;
@@ -287,9 +254,8 @@ public class CustomerController : MonoBehaviour
         transform.position = basePos;
     }
 
-    // =========================
+
     // UTILS
-    // =========================
     private void SetRandomSprite(Sprite[] spriteArray)
     {
         if (faceSR == null || spriteArray == null || spriteArray.Length == 0) return;

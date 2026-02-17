@@ -1,17 +1,17 @@
 using UnityEngine;
-using TMPro;                // Serve per leggere le caselle di testo
-using UnityEngine.SceneManagement; // Serve per cambiare scena
+using TMPro;                
+using UnityEngine.SceneManagement; 
 
 public class AuthManager : MonoBehaviour
 {
     [Header("UI Riferimenti")]
-    public GameObject loginPanel;       // Il pannello nero
-    public TMP_InputField usernameInput; // Casella Nome
-    public TMP_InputField passwordInput; // Casella Password
-    public TextMeshProUGUI messageText;  // Testo Rosso per errori
+    public GameObject loginPanel;       
+    public TMP_InputField usernameInput; 
+    public TMP_InputField passwordInput; 
+    public TextMeshProUGUI messageText; 
 
     [Header("Impostazioni")]
-    public string gameSceneName = "Main"; // IL NOME DELLA TUA SCENA DI GIOCO
+    public string gameSceneName = "Main"; 
 
     void Start()
     {
@@ -20,20 +20,20 @@ public class AuthManager : MonoBehaviour
         if (messageText != null) messageText.text = "";
     }
 
-    // --- TASTO 1: APRIRE IL LOGIN ---
+    //APRIRE IL LOGIN 
     public void OpenLoginPanel()
     {
         loginPanel.SetActive(true);
         messageText.text = ""; 
     }
 
-    // --- TASTO 2: CHIUDERE IL LOGIN ---
+    // CHIUDERE IL LOGIN
     public void CloseLoginPanel()
     {
         loginPanel.SetActive(false);
     }
 
-    // --- TASTO 3: REGISTRATI ---
+    //REGISTRATI 
     public void RegisterUser()
     {
         string user = usernameInput.text;
@@ -63,7 +63,7 @@ public class AuthManager : MonoBehaviour
         messageText.color = Color.green;
     }
 
-    // --- TASTO 4: LOGIN ---
+    //LOGIN 
     public void LoginUser()
     {
         string user = usernameInput.text;
@@ -86,7 +86,7 @@ public class AuthManager : MonoBehaviour
             messageText.text = "Welcome " + user + "...";
             messageText.color = Color.green;
 
-            // Salviamo chi è l'utente attuale (per i soldi)
+            // Salviamo chi è l'utente attuale
             PlayerPrefs.SetString("CurrentUser", user);
             PlayerPrefs.Save();
 

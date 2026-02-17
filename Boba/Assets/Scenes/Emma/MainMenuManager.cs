@@ -16,12 +16,12 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI feedbackText;
 
     [Header("Bottoni INTERNI al Pannello (NON SPARISCONO)")]
-    public GameObject loginButton;     // Il tasto "Conferma Login" dentro il pannello
-    public GameObject registerButton;  // Il tasto "Conferma Registrazione" dentro il pannello
+    public GameObject loginButton;     
+    public GameObject registerButton; 
 
     [Header("Bottoni HOMEPAGE (QUESTI SPARISCONO)")]
-    public GameObject pulsanteApriLogin; // <--- NUOVO! Il bottone nella Home che APRE il menu login
-       // Il bottone Gioca
+    public GameObject pulsanteApriLogin;
+       
 
     void Start()
     {
@@ -52,33 +52,31 @@ public class MenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) { PlayerPrefs.DeleteAll(); SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
     }
 
-    // --- CONTROLLO VISIBILITÀ ---
+    //CONTROLLO VISIBILITÀ 
     public void CheckLoginStatus()
     {
         if (PlayerPrefs.HasKey("CurrentUser"))
         {
-            // === UTENTE LOGGATO ===
+            //UTENTE LOGGATO 
             string user = PlayerPrefs.GetString("CurrentUser");
             ShowFeedback("Welcome back " + user + "!");
 
-            // 1. NASCONDI IL BOTTONE CHE APRE IL MENU (Quello nella Home)
+            //NASCONDI IL BOTTONE CHE APRE IL MENU (Quello nella Home)
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(false);
 
-
-            // NOTA: I tasti loginButton e registerButton NON vengono toccati, restano attivi!
         }
         else
         {
-            // === NESSUNO LOGGATO ===
+            //NESSUNO LOGGATO
             ShowFeedback("Log in to play.");
 
-            // 1. MOSTRA IL BOTTONE CHE APRE IL MENU
+            // MOSTRA IL BOTTONE CHE APRE IL MENU
             if (pulsanteApriLogin != null) pulsanteApriLogin.SetActive(true);
 
         }
     }
 
-    // --- LOGICA DI ACCESSO ---
+    // LOGICA DI ACCESSO
     public void OnLoginClick()
     {
         string u = usernameInput.text;
@@ -115,14 +113,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // --- NAVIGAZIONE ---
+    //NAVIGAZIONE
     void ShowFeedback(string msg) { Debug.Log(msg); if (feedbackText != null) feedbackText.text = msg; }
     public void ShowMainMenu() { mainMenuPanel.SetActive(true); if(optionsPanel) optionsPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(false); }
     public void BackToMainMenu() { ShowMainMenu(); }
     private void HandleBackButton() { if (optionsPanel != null && optionsPanel.activeSelf) BackToMainMenu(); else QuitGame(); }
     public void QuitGame() 
     { 
-        // 1. Aggiungi un Log per essere sicuro che il bottone sia collegato
+        //Aggiungi un Log per essere sicuro che il bottone sia collegato
         Debug.Log("Sto chiudendo il gioco...");
 
         #if UNITY_EDITOR
@@ -137,7 +135,6 @@ public class MenuManager : MonoBehaviour
     // Funzioni per aprire i pannelli
     public void OpenOptions() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(optionsPanel) optionsPanel.SetActive(true); }
     
-    // QUESTA È QUELLA CHE APRE IL LOGIN
     public void OpenStoryMenu() { if(mainMenuPanel) mainMenuPanel.SetActive(false); if(storyMenuPanel) storyMenuPanel.SetActive(true); }
     
     public void StartStoryLevel(int levelIndex) 
@@ -148,7 +145,7 @@ public class MenuManager : MonoBehaviour
         // 2. Salviamo quale livello vogliamo (1, 2 o 3)
         GameSettings.SelectedLevel = levelIndex;
 
-        // 3. Carichiamo la scena di gioco (assicurati si chiami "Main" o come la tua scena di gioco)
+        // 3. Carichiamo la scena di gioco 
         SceneManager.LoadScene("Main"); 
     }
     public void StartInfiniteMode() 

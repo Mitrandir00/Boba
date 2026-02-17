@@ -1,14 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))] // Obbliga ad avere un collider per funzionare
+[RequireComponent(typeof(Collider2D))] 
 public class DraggableDrink : MonoBehaviour
 {
-    public DrinkBuilder builder; // Riferimento per sapere CHE COSA stiamo consegnando
+    public DrinkBuilder builder; 
     
     private Vector3 startPosition;
 
-
-    // Quando l'oggetto si attiva (dopo lo Shaker), salviamo la posizione iniziale
     void OnEnable()
     {
         startPosition = transform.position;
@@ -19,7 +17,7 @@ public class DraggableDrink : MonoBehaviour
     {
         // Converte la posizione del mouse dallo schermo al mondo di gioco
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0; // Assicuriamoci che rimanga in 2D
+        mousePos.z = 0; //deve rimanere in 2D
         transform.position = mousePos;
     }
 
@@ -39,11 +37,11 @@ public class DraggableDrink : MonoBehaviour
             // Cerca lo script del cliente nell'oggetto colpito
             CustomerController customer = hit.GetComponent<CustomerController>();
             
-            // Se troviamo un cliente (e non stiamo trascinando su noi stessi)
+            // Se troviamo un cliente
             if (customer != null)
             {
                 DeliverTo(customer);
-                return; // Fermati, consegna effettuata
+                return; 
             }
         }
 
@@ -56,16 +54,16 @@ public class DraggableDrink : MonoBehaviour
         // 1. Chiediamo al Builder di costruire la ricetta corrente
         BobaRecipe recipe = builder.BuildRuntimeRecipe();
 
-        // 2. La consegniamo al cliente (usando il tuo metodo esistente)
+        // 2. La consegniamo al cliente 
         customer.ReceiveDrink(recipe);
 
-        // 3. Nascondiamo il drink (è stato consegnato)
+        // 3. Nascondiamo il drink 
         gameObject.SetActive(false);
 
         // 4. Puliamo il builder per il prossimo ordine
         builder.ClearAll();
         
-        // (Opzionale) Rimettiamo l'oggetto nella posizione originale per il futuro
+        // Rimettiamo l'oggetto nella posizione originale per il futuro
         transform.position = startPosition;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class OptionSpawner : MonoBehaviour
 {
     [Header("Riferimenti")]
-    public CustomerOrder targetCustomer;       // lasciarlo vuoto nel prefab
+    public CustomerOrder targetCustomer;       
     public GameObject drinkOptionPrefab;
     public Transform spawnA;
     public Transform spawnB;
@@ -16,7 +16,6 @@ public class OptionSpawner : MonoBehaviour
 
     void Awake()
     {
-        // Auto-wire: cerca il CustomerOrder sullo stesso prefab (parent)
         if (!targetCustomer)
             targetCustomer = GetComponentInParent<CustomerOrder>();
     }
@@ -89,7 +88,7 @@ public class OptionSpawner : MonoBehaviour
     {
         if (!source) return null;
 
-        // funzione di clone runtime
+        
         BobaRecipe Clone(BobaRecipe r)
         {
             var c = ScriptableObject.CreateInstance<BobaRecipe>();
@@ -120,7 +119,7 @@ public class OptionSpawner : MonoBehaviour
                 }
                 else
                 {
-                    // cambia ingrediente (fallback: vicino nell'enum)
+                    // cambia ingrediente
                     int cur = (int)decoy.ingredients[i].ingredient;
                     int last = System.Enum.GetValues(typeof(Ingredient)).Length - 1;
                     int delta = Random.value < 0.5f ? -1 : 1;
@@ -140,7 +139,7 @@ public class OptionSpawner : MonoBehaviour
             }
         }
 
-        // fallback (non dovrebbe mai capitare)
+        // fallback
         var fallback = ScriptableObject.CreateInstance<BobaRecipe>();
         fallback.id = source.id + "_decoy_fallback";
         fallback.displayName = source.displayName + " (decoy)";

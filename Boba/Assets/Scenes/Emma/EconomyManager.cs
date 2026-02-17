@@ -27,7 +27,7 @@ public class EconomyManager : MonoBehaviour
 
     private int currentCoins;
 
-    // 🔹 PROPERTY PUBBLICA per leggere le monete attuali
+    // PROPERTY PUBBLICA per leggere le monete attuali
     public int CurrentCoins => currentCoins;
 
     private void Awake()
@@ -47,7 +47,7 @@ public class EconomyManager : MonoBehaviour
             gameOverPanel.SetActive(false);
     }
 
-    // 🔹 Restituisce il costo di un ingrediente
+    // Restituisce il costo di un ingrediente
     public int GetIngredientCost(Ingredient ing)
     {
         foreach (var item in priceList)
@@ -60,7 +60,7 @@ public class EconomyManager : MonoBehaviour
         return defaultCost;
     }
 
-    // 🔹 SPENDERE soldi
+    // SPENDERE soldi
     public bool SpendCoins(int amount)
     {
         if (amount <= 0) return true;
@@ -83,7 +83,7 @@ public class EconomyManager : MonoBehaviour
         }
     }
 
-    // 🔹 GUADAGNARE soldi
+    // GUADAGNARE soldi
     public void AddCoins(int amount)
     {
         if (amount <= 0) return;

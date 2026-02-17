@@ -11,7 +11,7 @@ public class CustomerOrder : MonoBehaviour
     [SerializeField] private CustomerOrderIndicator indicator;
 
     [Header("--- SOLO PER MODALITÀ STORIA ---")]
-    [Tooltip("Trascina qui la ricetta specifica che questo cliente deve ordinare")]
+    [Tooltip("Ricetta specifica che questo cliente deve ordinare")]
     public BobaRecipe storyRecipe; 
 
     [TextArea(3, 5)]
@@ -32,12 +32,10 @@ public class CustomerOrder : MonoBehaviour
         if (!indicator) indicator = GetComponentInChildren<CustomerOrderIndicator>(true);
     }
 
-    /// <summary>
-    /// Chiamato quando il cliente è pronto a ordinare (collega a OnReadyToOrder).
-    /// </summary>
+
+    /// Chiamato quando il cliente è pronto a ordinare
     public void PickAndShowOrder()
     {
-        // 1. SELEZIONE DELLA RICETTA
         if (GameSettings.IsStoryMode && storyRecipe != null)
         {
             // Se siamo nella storia e hai impostato una ricetta specifica, usa quella
@@ -55,10 +53,10 @@ public class CustomerOrder : MonoBehaviour
             return;
         }
 
-        // 2. VISUALIZZAZIONE (Balloon vs Icona)
+        //visualizzazione balloon
         if (GameSettings.IsStoryMode)
         {
-            // Nascondi l'icona sopra la testa
+            // Nasconde l'icona sopra la testa
             if (indicator) indicator.Hide();
 
             // Scegli il testo: usa quello personalizzato se c'è, altrimenti un fallback
@@ -76,7 +74,8 @@ public class CustomerOrder : MonoBehaviour
             if (orderUI) orderUI.ShowVisualOrder(requestedRecipe);
         }
     }
-    // --- Logica di confronto e consegna (rimane uguale) ---
+
+    //logica di confronto
     public bool Matches(BobaRecipe delivered)
     {
         if (requestedRecipe == null || delivered == null) return false;
@@ -104,9 +103,7 @@ public class CustomerOrder : MonoBehaviour
         else OnWrongDrink?.Invoke();
     }
 
-    /// <summary>
-    /// Pulisce/Nasconde la UI quando il cliente va via.
-    /// </summary>
+    //Nasconde la UI quando il cliente va via.
     public void ClearUI()
     {
         if (orderUI) orderUI.Hide();

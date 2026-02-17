@@ -33,7 +33,7 @@ public class MafiaCatController : MonoBehaviour
         // 1. Vai al centro
         yield return MoveTo(waitPoint.position);
 
-        // 2. Ruba i soldi (con DEBUG per capire il problema)
+        // 2. Ruba i soldi 
         StealMoney();
 
         // 3. Mostra il Balloon
@@ -64,7 +64,7 @@ public class MafiaCatController : MonoBehaviour
         PlayerPrefs.SetInt("OpenLevelSelect", 1);
         PlayerPrefs.Save();
 
-        // 3. Carica la scena del Menu (Assicurati si chiami "MainMenu")
+        // 3. Carica la scena del Menu
         SceneManager.LoadScene("MainMenu");
     }
 

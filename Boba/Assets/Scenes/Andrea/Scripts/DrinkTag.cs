@@ -13,7 +13,7 @@ public class DrinkTag : MonoBehaviour
         // verde per corretto, rosso per sbagliato (solo per debug)
         sr.color = isCorrect ? new Color(0.6f, 1f, 0.6f, 1f) : new Color(1f, 0.6f, 0.6f, 1f);
 
-        // rinomina in Hierarchy (utile)
+        // rinomina in Hierarchy
         gameObject.name = isCorrect ? "Drink_CORRETTO" : "Drink_SBAGLIATO";
     }
 }
