@@ -852,7 +852,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -874,11 +880,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 6dd5ee12-8d93-481d-914d-a171dc2b9a24
+  cloudProjectId: 37d45d8c-2ea2-4b89-b683-ebf1f5e0cf12
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Boba 2025-08-14_11-52-37
-  organizationId: andrea-mari
+  projectName: Cat-Tea
+  organizationId: unity_ed8ae75b9c9c486f25e4
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
