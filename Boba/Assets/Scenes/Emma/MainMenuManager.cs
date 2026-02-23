@@ -1,6 +1,5 @@
 using Unity.Services.Core;
 using Unity.Services.Authentication;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
